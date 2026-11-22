@@ -1,0 +1,11 @@
+{
+  "lancedb_version": "0.41.0",
+  "hybrid_ids": [
+    "a"
+  ],
+  "filtered_ids_after_reopen": [
+    "a"
+  ],
+  "text_after_upsert": "prefers green",
+  "count": 2
+}

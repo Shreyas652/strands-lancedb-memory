@@ -1,0 +1,166 @@
+{
+  "calls": [
+    {
+      "store": "add-only",
+      "method": "search",
+      "query": "What color do I like?",
+      "options": {
+        "max_search_results": 5
+      }
+    },
+    {
+      "store": "raw-messages",
+      "method": "search",
+      "query": "What color do I like?",
+      "options": {
+        "max_search_results": 5
+      }
+    },
+    {
+      "store": "raw-messages",
+      "method": "add_messages",
+      "roles": [
+        "user",
+        "assistant"
+      ],
+      "texts": [
+        "What color do I like?",
+        "stub answer 1"
+      ],
+      "sequence_numbers": [
+        0,
+        1
+      ]
+    },
+    {
+      "method": "extract",
+      "roles": [
+        "user",
+        "assistant"
+      ],
+      "has_default_model": true
+    },
+    {
+      "store": "add-only",
+      "method": "add",
+      "content": "extracted durable fact",
+      "metadata": null
+    },
+    {
+      "store": "add-only",
+      "method": "search",
+      "query": "Tell me again",
+      "options": {
+        "max_search_results": 5
+      }
+    },
+    {
+      "store": "raw-messages",
+      "method": "search",
+      "query": "Tell me again",
+      "options": {
+        "max_search_results": 5
+      }
+    },
+    {
+      "store": "raw-messages",
+      "method": "add_messages",
+      "roles": [
+        "user",
+        "assistant"
+      ],
+      "texts": [
+        "Tell me again",
+        "stub answer 2"
+      ],
+      "sequence_numbers": [
+        2,
+        3
+      ]
+    },
+    {
+      "method": "extract",
+      "roles": [
+        "user",
+        "assistant"
+      ],
+      "has_default_model": true
+    },
+    {
+      "store": "add-only",
+      "method": "add",
+      "content": "extracted durable fact",
+      "metadata": null
+    },
+    {
+      "store": "add-only",
+      "method": "search",
+      "query": "blue",
+      "options": {
+        "max_search_results": 3
+      }
+    },
+    {
+      "store": "raw-messages",
+      "method": "search",
+      "query": "blue",
+      "options": {
+        "max_search_results": 3
+      }
+    },
+    {
+      "store": "add-only",
+      "method": "add",
+      "content": "Explicit tool fact",
+      "metadata": null
+    },
+    {
+      "store": "raw-messages",
+      "method": "add",
+      "content": "Explicit tool fact",
+      "metadata": null
+    }
+  ],
+  "model_calls": 2,
+  "model_seen": [
+    [
+      {
+        "role": "user",
+        "content": [
+          {
+            "text": "What color do I like?"
+          },
+          {
+            "text": "\n\n<memory>\n<entry source=\"add-only\">User color is blue</entry>\n</memory>"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "role": "user",
+        "content": [
+          {
+            "text": "What color do I like?"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "text": "stub answer 1"
+          }
+        ]
+      },
+      {
+        "role": "user",
+        "content": [
+          {
+            "text": "Tell me again"
+          }
+        ]
+      }
+    ]
+  ]
+}
