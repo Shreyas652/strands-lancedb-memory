@@ -10,7 +10,7 @@ The proposed package will connect [Strands Agents](https://github.com/strands-ag
 - [Prior art](docs/PRIOR_ART.md): MongoDB, Pixeltable, Neo4j and Strands file-store design patterns.
 - [Agent lifecycle](docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
 
-The design proposal is prepared in Phase 1 and will be reviewed separately.
+[Design proposal](docs/DESIGN.md): alternatives, test plan, public API proposal and approval questions. This is the Phase 1 review gate before implementation.
 
 ## Reproduce Phase 0
 
