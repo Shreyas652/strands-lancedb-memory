@@ -17,7 +17,7 @@ These notes describe the installed `strands-agents==1.65.0` and `lancedb==0.41.0
 - `lancedb.connect(uri)` returns `DBConnection`; `create_table`, `open_table`, `list_tables` and `Table.search` are installed. `Table.create_index(column, config=FTS())` and `Table.create_fts_index(...)` both exist; the latter is marked experimental in its installed docstring. We should choose one path and test index lifecycle rather than assume every search mode works without an index.
 - `Table.merge_insert(on).when_matched_update_all().when_not_matched_insert_all().execute(data)` exists and was exercised in `experiments/lancedb_api_smoke.py`. The same smoke exercised hybrid `.vector(...).text(...).where(col("tenant") == "alice", prefilter=True).rerank(RRFReranker()).limit(5).to_list()` and a reopen. Output: `results/phase0_lancedb_api.json`. This is an API smoke, not proof of safe concurrent upserts or tenant isolation against adversarial IDs.
 - `lancedb.connect` exposes `read_consistency_interval`; its default is `None`. Cross-process visibility and write serialization need explicit experiments. `Table.optimize` is available, but aggressive version cleanup can interfere with other readers, so maintenance policy needs testing.
-- An `s3://` URI is accepted by the API signature; no S3 emulator or live S3 write/read has yet been run. S3 is not a verified storage target at this phase.
+- The `connect` signature accepts a string URI, but this does not verify S3 behavior. No S3 emulator or live S3 write/read has yet been run. S3 is not a verified storage target at this phase.
 
 ## Absent or changed from the proposed design
 

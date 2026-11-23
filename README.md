@@ -9,7 +9,8 @@ The proposed package will connect [Strands Agents](https://github.com/strands-ag
 - [Installed API notes](docs/API_NOTES.md): exact Strands 1.65.0 and LanceDB 0.41.0 signatures and source lines.
 - [Prior art](docs/PRIOR_ART.md): MongoDB, Pixeltable, Neo4j and Strands file-store design patterns.
 - [Agent lifecycle](docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
-- [Design proposal](docs/DESIGN.md): alternatives, test plan, public API proposal and approval questions.
+
+The design proposal is prepared in Phase 1 and will be reviewed separately.
 
 ## Reproduce Phase 0
 
