@@ -1,0 +1,10 @@
+# Current limitations
+
+This document records Phase 2 behavior. The package has not yet completed the LongMemEval experiment, 1k/10k/100k scale test, or a Linux/macOS/Python 3.11–3.13 CI matrix.
+
+- **Local storage only.** `s3://` and other remote URIs fail at construction. An S3 example would be misleading until an emulator and real-backend smoke pass.
+- **Embeddings are supplied by the caller.** FTS works without a model. Vector and hybrid search require an `Embedder` with a declared dimension and model ID. No local embedding model is bundled or downloaded implicitly.
+- **Fact updates require a stable key.** With `update_strategy="fact_key"`, the caller must pass `metadata.fact_key`. Retrieval brings the newest version of a matched key into the candidate set and ranks it first. This does not infer that differently worded unkeyed facts describe the same subject. `search_as_of` filters by asserted `valid_from`; it does not answer natural-language time questions by itself.
+- **Local concurrency is serialized.** A process-wide reentrant lock and a cross-process OS file lock guard writable operations on the same path. The pre-lock two-process probe failed with 10/20 rows; the post-lock probe passed with 20/20. This is not evidence for network filesystem locking, S3 multi-writer operation, or high throughput. The lock acquisition deadline is 60 seconds; failures surface to callers.
+- **Upstream manager errors.** Direct `store.search` raises on storage failures. Strands `MemoryManager.search` catches per-store errors, logs them, and can return an empty result. Applications should monitor these logs instead of treating every empty manager result as a true miss.
+- **No benchmark claim yet.** Offline tests demonstrate API behavior and local persistence. They do not establish answer quality, retrieval advantage over FileMemoryStore, or scale. These measurements belong to Phases 3 and 4.

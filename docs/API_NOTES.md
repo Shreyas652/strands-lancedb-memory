@@ -75,3 +75,12 @@ These notes describe the installed `strands-agents==1.65.0` and `lancedb==0.41.0
 | `lancedb.BTree` | `() -> None` | `lancedb/index.py:35` |
 | `lancedb.RRFReranker` | `(K: int = 60, return_score='relevance')` | `lancedb/rerankers/rrf.py:15` |
 | `lancedb.expr.col` | `(name: 'str') -> 'Expr'` | `lancedb/expr.py:287` |
+
+## Phase 2 additions verified from installed source
+
+| API | Signature or behavior | Installed source |
+| --- | --- | --- |
+| `lancedb.query.ColumnOrdering` | Fields `column_name: str`, `ascending: bool = True`, `nulls_first: bool = False` | `lancedb/query.py:437` |
+| `lancedb.LanceQueryBuilder.order_by` | `(self, ordering: Optional[List[ColumnOrdering]]) -> Self` | `lancedb/query.py:1618` |
+| `filelock.FileLock` | Platform-specific OS lock alias; Windows uses `WindowsFileLock`, Unix uses `UnixFileLock` | `filelock/__init__.py:57-74` |
+| `filelock.BaseFileLock` | Constructor accepts `lock_file` and `timeout`; context manager acquires and releases | `filelock/_api.py:647` |

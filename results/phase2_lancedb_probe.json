@@ -1,0 +1,17 @@
+{
+  "empty_count": 0,
+  "table_names": [
+    "memories"
+  ],
+  "empty_index": "created",
+  "index_count_after_add": 1,
+  "first_fts": [
+    "a"
+  ],
+  "post_index_fts": [
+    "b"
+  ],
+  "reopen_fts": [
+    "b"
+  ]
+}

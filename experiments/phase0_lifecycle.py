@@ -50,7 +50,8 @@ class FixedExtractor:
             {
                 "method": "extract",
                 "roles": [message["role"] for message in messages],
-                "has_default_model": context is not None and context.default_model is not None,
+                "has_default_model": context is not None
+                and context.default_model is not None,
             }
         )
         return [ExtractionResult(content="extracted durable fact")]
@@ -58,11 +59,20 @@ class FixedExtractor:
 
 class LoggedAddStore(TestMemoryStore):
     async def search(self, query, options=None):
-        CALLS.append({"store": self.name, "method": "search", "query": query, "options": options})
+        CALLS.append(
+            {"store": self.name, "method": "search", "query": query, "options": options}
+        )
         return await super().search(query, options)
 
     async def add(self, content, metadata=None):
-        CALLS.append({"store": self.name, "method": "add", "content": content, "metadata": metadata})
+        CALLS.append(
+            {
+                "store": self.name,
+                "method": "add",
+                "content": content,
+                "metadata": metadata,
+            }
+        )
         return await super().add(content, metadata)
 
 
@@ -79,7 +89,9 @@ class LoggedRawStore(LoggedAddStore):
                     for block in message["content"]
                     if "text" in block
                 ],
-                "sequence_numbers": None if context is None else context.sequence_numbers,
+                "sequence_numbers": None
+                if context is None
+                else context.sequence_numbers,
             }
         )
 
@@ -89,7 +101,10 @@ def main() -> None:
         add_store = LoggedAddStore(
             name="add-only",
             path=str(Path(tmp) / "add.json"),
-            extraction={"trigger": [InvocationTrigger()], "extractor": FixedExtractor()},
+            extraction={
+                "trigger": [InvocationTrigger()],
+                "extractor": FixedExtractor(),
+            },
         )
         raw_store = LoggedRawStore(
             name="raw-messages",
@@ -105,7 +120,9 @@ def main() -> None:
         agent("Tell me again")
 
         async def tools():
-            search = next(tool for tool in manager.tools if tool.tool_name == "search_memory")
+            search = next(
+                tool for tool in manager.tools if tool.tool_name == "search_memory"
+            )
             add = next(tool for tool in manager.tools if tool.tool_name == "add_memory")
             await search(query="blue")
             await add(entries=["Explicit tool fact"])
@@ -118,8 +135,12 @@ def main() -> None:
         ), "seeded memory was not injected into the first model call"
         output = Path("results/phase0_lifecycle.json")
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(report, default=str, indent=2) + "\n", encoding="utf-8")
-        print(f"saved {output}: {len(CALLS)} store/extractor calls, {model.calls} model calls")
+        output.write_text(
+            json.dumps(report, default=str, indent=2) + "\n", encoding="utf-8"
+        )
+        print(
+            f"saved {output}: {len(CALLS)} store/extractor calls, {model.calls} model calls"
+        )
 
 
 if __name__ == "__main__":

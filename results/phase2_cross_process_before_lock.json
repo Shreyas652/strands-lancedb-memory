@@ -1,0 +1,7 @@
+{
+  "expected_count": 20,
+  "observed_count": 10,
+  "writer_exit_codes": [0, 1],
+  "reader_error": null,
+  "provenance": "Captured from the first execution of experiments/phase2_cross_process_probe.py before the file lock was added; that script originally wrote phase2_cross_process_probe.json, which was overwritten by the post-fix run. The original tool output is retained in the project conversation."
+}
