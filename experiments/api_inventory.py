@@ -6,9 +6,10 @@ import re
 from pathlib import Path
 
 import lancedb
+import strands
 from lancedb.db import DBConnection
 from lancedb.expr import col
-from lancedb.index import BTree, FTS
+from lancedb.index import FTS, BTree
 from lancedb.merge import LanceMergeInsertBuilder
 from lancedb.query import LanceHybridQueryBuilder, LanceQueryBuilder
 from lancedb.rerankers import RRFReranker
@@ -19,7 +20,9 @@ from strands.memory.extraction.model_extractor import ModelExtractor
 from strands.memory.extraction.triggers import IntervalTrigger, InvocationTrigger
 from strands.memory.extraction.types import ExtractionConfig
 from strands.models import Model
-from strands.vended_memory_stores.bedrock_knowledge_base import BedrockKnowledgeBaseStore
+from strands.vended_memory_stores.bedrock_knowledge_base import (
+    BedrockKnowledgeBaseStore,
+)
 from strands.vended_memory_stores.file_memory_store import FileMemoryStore
 from strands.vended_memory_stores.test_memory_store import TestMemoryStore
 
@@ -74,7 +77,7 @@ APIS = {
 
 
 def main() -> None:
-    site_packages = Path(__file__).resolve().parents[1] / ".venv/Lib/site-packages"
+    site_packages = Path(strands.__file__).resolve().parents[1]
     records = []
     for name, obj in APIS.items():
         source_file = inspect.getsourcefile(obj)
@@ -108,7 +111,10 @@ def main() -> None:
     for record in records:
         signature = record["signature"].replace("|", "\\|").replace("`", "\\`")
         rows.append(f"| `{record['name']}` | `{signature}` | `{record['source']}` |")
-    notes.write_text(existing.split(marker)[0] + marker + "\n\n" + "\n".join(rows) + "\n", encoding="utf-8")
+    notes.write_text(
+        existing.split(marker)[0] + marker + "\n\n" + "\n".join(rows) + "\n",
+        encoding="utf-8",
+    )
     print(f"saved {output}: {len(records)} installed API signatures")
 
 

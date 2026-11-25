@@ -1,6 +1,6 @@
 # Installed API notes (Phase 0)
 
-These notes describe the installed `strands-agents==1.65.0` and `lancedb==0.41.0` wheels in this repository's uv environment, on Python 3.13/Windows. Run `uv run python experiments/api_inventory.py` to regenerate the signature table below and `results/phase0_api_inventory.json`. Source paths in the table are relative to `.venv/Lib/site-packages/`; the line is the declaration inspected by `inspect.getsourcelines`. The table is a candidate API inventory for the design, not a claim that the future store uses all 46 APIs.
+These notes describe the installed `strands-agents==1.65.0` and `lancedb==0.41.0` wheels in this repository's uv environment, on Python 3.13/Windows. Run `uv run python experiments/api_inventory.py` to regenerate the signature table below and `results/phase0_api_inventory.json`. Source paths in the table are relative to the installed Strands package's site-packages root; the line is the declaration inspected by `inspect.getsourcelines`. The table is a candidate API inventory for the design, not a claim that the future store uses all 46 APIs.
 
 ## Contract and routing confirmed in source
 
