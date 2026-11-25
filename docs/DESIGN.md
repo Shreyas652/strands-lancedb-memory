@@ -4,6 +4,8 @@ Phase 2 implementation has begun at the user's direction without a phase approva
 
 Status: **historical Phase 1 proposal**. This document records candidate decisions and test criteria. Phase 2 now has a local `MemoryStore` implementation and offline tests. Search quality at benchmark scale and S3 support remain unverified.
 
+The Phase 2 review found that content-only IDs collapsed keyed facts that returned to an earlier value. The implementation now gives each keyed observation a version identity: an explicit `valid_from` produces a deterministic ID, while an implicit observation gets a new ID unless its content and metadata match the current version. A stable `idempotency_key` remains necessary to identify a retry that arrives after a later update. Raw ingestion requires a separate store instance and run ID for each Agent because Strands restarts sequence numbers at attachment. These rules supersede the provisional content-hash wording below.
+
 ## Scope and invariants
 
 The package will expose one typed `LanceDBMemoryStore` implementing the pinned Strands `MemoryStore` Protocol. All paths must bind a nonempty tenant identifier and never run an unfiltered read. The store is only responsible for retrieval, persistence, and optional raw-message ingestion; it never reads benchmark labels or scoring modules. Gold answers enter only the scoring process. Every benchmark run records dataset fingerprint, seed, configuration, model ID, temperature, prompt hash, outputs per question, latencies, and estimated billed cost. The test split is sealed before tuning.

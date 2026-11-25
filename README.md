@@ -20,7 +20,7 @@ async def main():
 asyncio.run(main())
 ```
 
-Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. Fact extraction may call the configured model and is not exercised by the offline test suite.
+Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. In raw mode, create **one store instance and a distinct run ID per Agent**; Strands resets its sequence numbers for each Agent. Reuse an ID only to replay that same Agent run. For retries interleaved with later fact updates, pass a stable `metadata.idempotency_key`. Fact extraction may call the configured model and is not exercised by the offline test suite.
 
 ## Verify Phase 2
 
