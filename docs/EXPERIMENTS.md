@@ -83,7 +83,7 @@ The retrieval stage used a temporary Ubuntu 24.04 `c7i.xlarge` EC2 instance. Fro
 
 `results/all_500_summary.json` joins the 100 development questions to the 400 frozen test questions without changing the configuration. LanceDB FTS answered 255/500 (51.0%) correctly; FileMemoryStore answered 240/500 (48.0%), TestMemoryStore 219/500 (43.8%), and no-memory 30/500 (6.0%). This is a combined descriptive result, not an additional held-out score or an official leaderboard entry. The question-type breakdown is in the raw report and README; preferences (2/30 for FTS) and multi-session questions (42/133) remain weak points.
 
-`results/second_judge.json` regraded a fixed-seed sample of 50 held-out answer rows with `gpt-4o-mini-2024-07-18`. It agreed with the primary judge on 49/50 (98%). This is the same model family as the reader that wrote the answers, so the agreement is a weak independence check, not a substitute for human adjudication. **Future work:** Re-judge the same 50-question sample with a different model family. The shared model ledger totals $4.14651835 after this check, below the $20 cap. This excludes AWS compute and storage charges.
+`results/second_judge.json` regraded a fixed-seed sample of 50 held-out answer rows with `gpt-4o-mini-2024-07-18`. It agreed with the primary judge on 49/50 (98%). This is the same model as the reader that wrote the answers, so the agreement is a weak independence check, not a substitute for human adjudication. **Future work:** Re-judge the same 50-question sample with a different model family. The shared model ledger totals $4.14651835 after this check, below the $20 cap. This excludes AWS compute and storage charges.
 
 ## Search scale
 
