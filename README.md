@@ -1,6 +1,6 @@
 # strands-lancedb-memory
 
-**Status: Phase 2 implementation under review.** The local LanceDB `MemoryStore` is implemented and tested offline. No LongMemEval accuracy or scale claims have been produced in this repository yet.
+**Status: evaluation in progress.** The local LanceDB `MemoryStore` is implemented and tested offline. On 100 LongMemEval-S development questions, full-session memory raised GPT-4o-judged answer accuracy over no memory, while Strands' FileMemoryStore narrowly outscored this store at the same five-result limit. The sealed 400-question test evaluation is still pending.
 
 The package connects [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant-scoped local storage, explicit ingestion modes, and configurable FTS, vector, or weighted reciprocal rank fusion search. Vector modes require a caller-supplied embedder. Remote `s3://` storage is currently rejected because it has not been validated.
 
@@ -20,7 +20,27 @@ async def main():
 asyncio.run(main())
 ```
 
-Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. Fact extraction may call the configured model and is not exercised by the offline test suite.
+Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. In raw mode, create **one store instance and a distinct run ID per Agent**; Strands resets its sequence numbers for each Agent. Reuse an ID only to replay that same Agent run. For retries interleaved with later fact updates, pass a stable `metadata.idempotency_key`. Fact extraction may call the configured model and is not exercised by the offline test suite.
+
+The runnable [offline Agent example](examples/local_agent.py) uses a stub model and a temporary local directory. It tests integration without a cloud account; replace the stub with your configured Strands model for real answers.
+
+## Configuration
+
+| Argument | Default | Meaning |
+| --- | --- | --- |
+| `uri` | required | Local LanceDB directory. Remote URIs are rejected. |
+| `tenant_id` | required | Required filter on every read and write. Use a stable ID per user or isolation boundary. |
+| `writable` | `True` | Read-only mode requires an existing table and index. |
+| `max_search_results` | `5` | Default result limit; Strands may override it per search. |
+| `retrieval` | `"fts"` | `"fts"`, `"vector"`, or `"hybrid_rrf"`. Vector modes require `embedder`. |
+| `embedder` | `None` | Caller-supplied synchronous `Embedder` with `dimension`, `model_id`, `embed_documents`, and `embed_query`. |
+| `vector_weight` | `0.5` | Vector-side weight in weighted RRF; used only for hybrid search. |
+| `ingestion` | `"off"` | `"off"` for explicit writes, `"facts"` for Strands extraction, or `"raw"` for raw Agent messages. |
+| `agent_run_id` | `None` | Required stable replay identity when `ingestion="raw"`. Use a new value for a new run. |
+| `update_strategy` | `"append"` | `"fact_key"` gives keyed facts current-value ranking and history. |
+| `recency_weight` | `0.0` | Optional nonnegative recency boost. |
+
+Writes and searches fail explicitly if storage, indexing, or embedding fails. They never switch to another backend automatically. See [design](docs/DESIGN.md) and [limitations](docs/LIMITATIONS.md) for concurrency and update semantics.
 
 ## Verify Phase 2
 
@@ -41,6 +61,60 @@ The two-process probe saves its recorded result in `results/phase2_cross_process
 - [Agent lifecycle](docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
 
 [Design proposal](docs/DESIGN.md): alternatives and the original Phase 1 rationale. The implementation evidence and remaining limits are recorded separately.
+
+## Synthetic local scale results
+
+The script `experiments/scale_memory.py` bulk seeds normalized 32-dimensional synthetic vectors, then searches through the public store API before and after building an IVF_FLAT index. Each size uses 30 fixed-seed probes on a 12-logical-CPU Windows machine. Insertion throughput here is for direct LanceDB bulk seeding, **not** the store's public `add` method. Indexed recall compares top-10 results with exact search. The index was slower at 1k and 10k; at 100k it was slightly faster but returned only 78% of exact top-10 neighbors, so it is not enabled by default.
+
+| Metric | Value | JSON source |
+| --- | ---: | --- |
+| 1k exact p50 search, ms | 16.7 | `results/scale_1k.json#/exact_p50_search_ms` |
+| 1k indexed p50 search, ms | 18.9 | `results/scale_1k.json#/indexed_p50_search_ms` |
+| 1k indexed recall@10 | 95.3% | `results/scale_1k.json#/indexed_recall_at_10` |
+| 10k exact p50 search, ms | 23.8 | `results/scale_10k.json#/exact_p50_search_ms` |
+| 10k indexed p50 search, ms | 24.8 | `results/scale_10k.json#/indexed_p50_search_ms` |
+| 10k indexed recall@10 | 85.3% | `results/scale_10k.json#/indexed_recall_at_10` |
+| 100k exact p50 search, ms | 66.9 | `results/scale_100k.json#/exact_p50_search_ms` |
+| 100k indexed p50 search, ms | 62.9 | `results/scale_100k.json#/indexed_p50_search_ms` |
+| 100k indexed recall@10 | 78.0% | `results/scale_100k.json#/indexed_recall_at_10` |
+
+The JSON files include hardware, pinned library versions, script hash, raw per-query timings and rankings, and the index build time. These are synthetic search measurements, not LongMemEval recall or answer accuracy.
+
+## LongMemEval-S development retrieval
+
+The public [LongMemEval-S](https://github.com/xiaowu0162/LongMemEval) dataset was split with a fixed, question-type-stratified seed into 100 development and 400 sealed test questions. On the development split, each store indexed the same full sessions. A hit means at least one labeled evidence session appears in the first five results. The reader and judge were not involved in these retrieval numbers; their answer-quality result is below.
+
+| Metric | Value | JSON source |
+| --- | ---: | --- |
+| LanceDB FTS dev evidence hit@5 | 97.0% | `results/dev_retrieval.json#/summary/lancedb_fts/hit_at_5` |
+| FileMemoryStore dev evidence hit@5 | 94.0% | `results/dev_retrieval.json#/summary/file/hit_at_5` |
+| TestMemoryStore dev evidence hit@5 | 93.0% | `results/dev_retrieval.json#/summary/test/hit_at_5` |
+| LanceDB FTS dev p50 search, ms | 608.7 | `results/dev_retrieval.json#/summary/lancedb_fts/p50_search_ms` |
+| FileMemoryStore dev p50 search, ms | 1025.9 | `results/dev_retrieval.json#/summary/file/p50_search_ms` |
+| TestMemoryStore dev p50 search, ms | 54.2 | `results/dev_retrieval.json#/summary/test/p50_search_ms` |
+
+The optional local `BAAI/bge-small-en-v1.5` model was also tested on the same 100 dev questions with a fingerprinted cached ONNX file. Weighted hybrid at vector weight 0.30 tied FTS on hit@5; equal weighting and vector-only were lower. These are retrieval comparisons only, and run-time conditions differed across the two jobs.
+
+| Metric | Value | JSON source |
+| --- | ---: | --- |
+| Weighted hybrid (vector weight 0.30) dev hit@5 | 97.0% | `results/vector_dev.json#/summary/hybrid_rrf:0.30/hit_at_5` |
+| Equal hybrid (vector weight 0.50) dev hit@5 | 96.0% | `results/vector_dev.json#/summary/hybrid_rrf:0.50/hit_at_5` |
+| Vector-only dev hit@5 | 93.0% | `results/vector_dev.json#/summary/vector:1.00/hit_at_5` |
+
+The split manifest (`results/longmemeval_dev_split.json`) records the dataset fingerprint and development IDs without publishing test IDs. Every retrieval row has the question ID, selected session IDs and ordinals, evidence rank, injected context size, and measured latency. The test partition remains untouched until the configuration is frozen.
+
+## LongMemEval-S development answers
+
+The same `gpt-4o-mini-2024-07-18` reader answered every question at temperature 0. The official LongMemEval judge prompt, verified against the source at commit `9e0b455f4ef0e2ab8f2e582289761153549043fc`, was run with pinned `gpt-4o-2024-08-06`. These are **development results under our reader and judge setup**, not an official leaderboard submission. Each memory store used its first five results, and every answer and judgment is in `results/dev_answers.json`.
+
+| Metric | Value | JSON source |
+| --- | ---: | --- |
+| No memory dev answer accuracy | 3.0% | `results/dev_answers.json#/summary/no_memory:0/accuracy` |
+| FileMemoryStore dev answer accuracy, k=5 | 55.0% | `results/dev_answers.json#/summary/file:5/accuracy` |
+| LanceDB FTS dev answer accuracy, k=5 | 53.0% | `results/dev_answers.json#/summary/lancedb_fts:5/accuracy` |
+| TestMemoryStore dev answer accuracy, k=5 | 45.0% | `results/dev_answers.json#/summary/test:5/accuracy` |
+
+LanceDB FTS had a higher evidence hit@5 than FileMemoryStore on this split, but two fewer correct answers. Retrieval hit rate alone did not predict answer quality. Both memory stores strongly improved on the no-memory arm. The dev set is only 100 questions, and the 400-question test result has not yet been examined.
 
 ## Reproduce Phase 0
 

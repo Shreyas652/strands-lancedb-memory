@@ -144,6 +144,21 @@ def test_real_agent_injection_tools_and_raw_extraction(tmp_path):
     ]
 
 
+def test_raw_ingestion_uses_distinct_store_and_run_id_per_agent(tmp_path):
+    for run_id, message in (
+        ("first-agent", "Remember my blue bicycle"),
+        ("second-agent", "Remember my green motorcycle"),
+    ):
+        store = make_store(tmp_path, ingestion="raw", agent_run_id=run_id)
+        store.extraction = {"trigger": [InvocationTrigger()]}
+        manager = MemoryManager(stores=[store])
+        agent = Agent(model=StubModel(), callback_handler=None, memory_manager=manager)
+        agent(message)
+    reopened = make_store(tmp_path)
+    assert run(reopened.search("blue bicycle"))
+    assert run(reopened.search("green motorcycle"))
+
+
 def test_raw_replay_and_distinct_identical_turns(tmp_path):
     store = make_store(tmp_path, ingestion="raw", agent_run_id="run-1")
     messages = [
@@ -222,6 +237,39 @@ def test_backfill_does_not_override_current_fact(tmp_path):
         "home city Phoenix",
         "home city Boston",
     ]
+
+
+@pytest.mark.parametrize("explicit_time", [False, True])
+def test_keyed_fact_revert_preserves_every_version(tmp_path, explicit_time):
+    store = make_store(tmp_path, update_strategy="fact_key")
+    values = ["color is blue", "color is green", "color is blue"]
+    versions = []
+    for index, value in enumerate(values):
+        metadata = {"fact_key": "color"}
+        if explicit_time:
+            metadata["valid_from"] = f"202{index}-01-01T00:00:00Z"
+        versions.append(run(store.add(value, metadata)))
+    assert len(set(versions)) == 3
+    assert [entry.content for entry in run(store.history("color"))] == list(
+        reversed(values)
+    )
+    assert (
+        run(store.search("color", {"max_search_results": 1}))[0].content == values[-1]
+    )
+    repeat = {"fact_key": "color"}
+    if explicit_time:
+        repeat["valid_from"] = "2022-01-01T00:00:00Z"
+    assert run(store.add(values[-1], repeat)) == versions[-1]
+    assert len(run(store.history("color"))) == 3
+
+
+def test_keyed_facts_with_equal_text_and_different_keys_remain_distinct(tmp_path):
+    store = make_store(tmp_path, update_strategy="fact_key")
+    first = run(store.add("likes tea", {"fact_key": "drink"}))
+    second = run(store.add("likes tea", {"fact_key": "preference"}))
+    assert first != second
+    assert len(run(store.history("drink"))) == 1
+    assert len(run(store.history("preference"))) == 1
 
 
 def test_old_wording_resolves_to_current_fact(tmp_path):

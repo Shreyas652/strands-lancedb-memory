@@ -1,0 +1,11 @@
+# Draft only. Update addedDate after publication; do not submit this entry yet.
+name: strands-lancedb-memory
+description: Embedded local LanceDB MemoryStore for Strands Agents with tenant-scoped FTS and optional vector or weighted hybrid recall.
+integrationType: memory-store
+languages:
+  python:
+    package: strands-lancedb-memory
+github: https://github.com/Shreyas652/strands-lancedb-memory
+docsUrl: https://github.com/Shreyas652/strands-lancedb-memory#readme
+maintainedBy: community
+addedDate: 2026-11-24

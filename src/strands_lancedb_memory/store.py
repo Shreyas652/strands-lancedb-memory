@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import threading
+import uuid
 from collections.abc import Sequence
 from contextlib import nullcontext
 from datetime import UTC, datetime, timedelta
@@ -117,8 +118,9 @@ class LanceDBMemoryStore(MemoryStore):
     """A tenant-scoped Strands memory store backed by a local LanceDB folder.
 
     Raw extraction requires a stable, caller-supplied ``agent_run_id``. Strands
-    supplies sequence numbers but does not supply that ID. Reuse the ID only
-    when replaying the same Agent run; use a new ID for a new run.
+    supplies sequence numbers but does not supply that ID. Create a separate
+    store instance and run ID for every Agent. Reuse a run ID only when
+    replaying the same Agent run; another Agent restarts sequence numbering.
     """
 
     def __init__(
@@ -291,43 +293,83 @@ class LanceDBMemoryStore(MemoryStore):
         except Exception as exc:
             raise EmbeddingError("query embedding failed") from exc
 
+    def _insert_rows(self, table: Any, rows: list[dict[str, Any]]) -> None:
+        """Check replay payloads and insert while the caller holds both locks."""
+        for row in rows:
+            existing = (
+                table.search()
+                .where(col("entry_id") == row["entry_id"], prefilter=True)
+                .limit(2)
+                .to_list()
+            )
+            if existing and any(
+                old["tenant_id"] != row["tenant_id"]
+                or old["content"] != row["content"]
+                or old["source"] != row["source"]
+                or old["role"] != row["role"]
+                or old["run_id"] != row["run_id"]
+                or old["sequence_number"] != row["sequence_number"]
+                or old["fact_key"] != row["fact_key"]
+                or old["metadata_json"] != row["metadata_json"]
+                for old in existing
+            ):
+                raise ReplayConflictError(
+                    "an entry ID was reused with different content"
+                )
+        data = pa.Table.from_pylist(rows, schema=self._schema())
+        table.merge_insert("entry_id").when_not_matched_insert_all().execute(data)
+
     def _write_rows(self, rows: list[dict[str, Any]]) -> None:
         with self._lock, self._process_guard():
             try:
                 table = self._open_table()
                 self._ensure_index(table)
-                for row in rows:
-                    existing = (
-                        table.search()
-                        .where(col("entry_id") == row["entry_id"], prefilter=True)
-                        .limit(2)
-                        .to_list()
-                    )
-                    if existing and any(
-                        old["tenant_id"] != row["tenant_id"]
-                        or old["content"] != row["content"]
-                        or old["source"] != row["source"]
-                        or old["role"] != row["role"]
-                        or old["run_id"] != row["run_id"]
-                        or old["sequence_number"] != row["sequence_number"]
-                        or old["fact_key"] != row["fact_key"]
-                        or old["metadata_json"] != row["metadata_json"]
-                        for old in existing
-                    ):
-                        raise ReplayConflictError(
-                            "an entry ID was reused with different content"
-                        )
-                data = pa.Table.from_pylist(rows, schema=self._schema())
-                table.merge_insert("entry_id").when_not_matched_insert_all().execute(
-                    data
-                )
+                self._insert_rows(table, rows)
             except MemoryStorageError:
                 raise
             except Exception as exc:
                 raise MemoryStorageError("LanceDB write failed") from exc
 
+    def _write_keyed_fact(self, row: dict[str, Any], explicit_time: bool) -> str:
+        """Deduplicate the latest implicit observation and preserve reverts."""
+        with self._lock, self._process_guard():
+            try:
+                table = self._open_table()
+                self._ensure_index(table)
+                latest = (
+                    table.search()
+                    .where(
+                        (col("tenant_id") == self.tenant_id)
+                        & (col("fact_key") == row["fact_key"]),
+                        prefilter=True,
+                    )
+                    .order_by(
+                        [
+                            ColumnOrdering(column_name="valid_from", ascending=False),
+                            ColumnOrdering(column_name="recorded_at", ascending=False),
+                        ]
+                    )
+                    .limit(1)
+                    .to_list()
+                )
+                if latest and (
+                    latest[0]["content"] == row["content"]
+                    and latest[0]["metadata_json"] == row["metadata_json"]
+                    and (
+                        not explicit_time
+                        or latest[0]["valid_from"] == row["valid_from"]
+                    )
+                ):
+                    return str(latest[0]["entry_id"])
+                self._insert_rows(table, [row])
+                return str(row["entry_id"])
+            except MemoryStorageError:
+                raise
+            except Exception as exc:
+                raise MemoryStorageError("LanceDB keyed fact write failed") from exc
+
     async def add(self, content: str, metadata: Metadata | None = None) -> str:
-        """Add an idempotent fact; identical content in one tenant is one fact."""
+        """Add a fact, preserving keyed versions and deduplicating retries."""
         if not self.writable:
             raise ValueError("store is read-only")
         if not content or not content.strip():
@@ -346,7 +388,7 @@ class LanceDBMemoryStore(MemoryStore):
         valid_from = _utc_time(meta.get("valid_from"), field="valid_from")
         recorded_at = datetime.now(UTC)
         serializable_meta = dict(meta)
-        if isinstance(serializable_meta.get("valid_from"), datetime):
+        if "valid_from" in serializable_meta:
             serializable_meta["valid_from"] = valid_from.isoformat()
         try:
             metadata_json = json.dumps(
@@ -354,11 +396,15 @@ class LanceDBMemoryStore(MemoryStore):
             )
         except (TypeError, ValueError) as exc:
             raise ValueError("metadata must be JSON serializable") from exc
-        entry_id = (
-            _identity("fact", self.tenant_id, "key", explicit_key)
-            if explicit_key is not None
-            else _identity("fact", self.tenant_id, "content", fact_key, content.strip())
-        )
+        if explicit_key is not None:
+            entry_id = _identity("fact", self.tenant_id, "key", explicit_key)
+        elif self.update_strategy == "fact_key":
+            version = _micros(valid_from) if "valid_from" in meta else uuid.uuid4().hex
+            entry_id = _identity("fact-version", self.tenant_id, fact_key, version)
+        else:
+            entry_id = _identity(
+                "fact", self.tenant_id, "content", fact_key, content.strip()
+            )
         row: dict[str, Any] = {
             "entry_id": entry_id,
             "tenant_id": self.tenant_id,
@@ -376,6 +422,10 @@ class LanceDBMemoryStore(MemoryStore):
             row["vector"] = (await asyncio.to_thread(self._embed_documents, [content]))[
                 0
             ]
+        if self.update_strategy == "fact_key" and explicit_key is None:
+            return await asyncio.to_thread(
+                self._write_keyed_fact, row, "valid_from" in meta
+            )
         await asyncio.to_thread(self._write_rows, [row])
         return entry_id
 
