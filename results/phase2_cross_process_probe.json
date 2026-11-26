@@ -1,0 +1,17 @@
+{
+  "expected_count": 20,
+  "observed_count": 20,
+  "writers": [
+    {
+      "exit_code": 0,
+      "error_tail": ""
+    },
+    {
+      "exit_code": 0,
+      "error_tail": ""
+    }
+  ],
+  "python": "3.13.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "lancedb": "0.41.0"
+}

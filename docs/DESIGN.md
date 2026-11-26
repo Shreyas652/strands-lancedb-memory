@@ -1,6 +1,10 @@
-# Design proposal — Phase 1, awaiting approval
+# Design proposal — Phase 1 snapshot
 
-Status: **provisional**. This document chooses candidates and test criteria; no LanceDB `MemoryStore` implementation exists yet. Decisions are grounded in the pinned installed API notes and the offline probes in `results/`. Search quality, correctness under concurrency, and S3 support remain hypotheses until Phases 2–4.
+Phase 2 implementation has begun at the user's direction without a phase approval pause. This document preserves the original proposal and alternatives; the implemented schema, tests, and current limits are in `src/strands_lancedb_memory/store.py`, `tests/test_store.py`, and `docs/LIMITATIONS.md`. The implementation uses `valid_from` and `recorded_at` as integer UTC microseconds, because the pinned PyArrow Windows runtime could not decode timestamp scalars without an additional timezone package. It does not store `active` or `valid_to`; current keyed versions are selected at query time. Writable local operations use an OS file lock after a two-process collision probe found lost writes without it. These changes do not alter the Phase 1 public constructor signature.
+
+Status: **historical Phase 1 proposal**. This document records candidate decisions and test criteria. Phase 2 now has a local `MemoryStore` implementation and offline tests. Search quality at benchmark scale and S3 support remain unverified.
+
+The Phase 2 review found that content-only IDs collapsed keyed facts that returned to an earlier value. The implementation now gives each keyed observation a version identity: an explicit `valid_from` produces a deterministic ID, while an implicit observation gets a new ID unless its content and metadata match the current version. A stable `idempotency_key` remains necessary to identify a retry that arrives after a later update. Raw ingestion requires a separate store instance and run ID for each Agent because Strands restarts sequence numbers at attachment. These rules supersede the provisional content-hash wording below.
 
 ## Scope and invariants
 

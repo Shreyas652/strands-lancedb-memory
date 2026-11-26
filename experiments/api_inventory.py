@@ -105,14 +105,22 @@ def main() -> None:
     notes = Path("docs/API_NOTES.md")
     existing = notes.read_text(encoding="utf-8")
     marker = "<!-- GENERATED API INVENTORY -->"
+    end_marker = "<!-- END GENERATED API INVENTORY -->"
     if marker not in existing:
         raise ValueError(f"{notes} must contain {marker}")
     rows = ["| Installed API | Signature | Verified source |", "| --- | --- | --- |"]
     for record in records:
         signature = record["signature"].replace("|", "\\|").replace("`", "\\`")
         rows.append(f"| `{record['name']}` | `{signature}` | `{record['source']}` |")
+    suffix = existing.split(end_marker, 1)[1] if end_marker in existing else ""
     notes.write_text(
-        existing.split(marker)[0] + marker + "\n\n" + "\n".join(rows) + "\n",
+        existing.split(marker, 1)[0]
+        + marker
+        + "\n\n"
+        + "\n".join(rows)
+        + "\n"
+        + end_marker
+        + suffix,
         encoding="utf-8",
     )
     print(f"saved {output}: {len(records)} installed API signatures")

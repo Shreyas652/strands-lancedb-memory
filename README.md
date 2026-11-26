@@ -1,8 +1,38 @@
 # strands-lancedb-memory
 
-**Status: research and design.** This repository does not yet ship a `MemoryStore` implementation. The design awaits review before implementation, and no benchmark accuracy or scale claims have been produced here.
+**Status: Phase 2 implementation under review.** The local LanceDB `MemoryStore` is implemented and tested offline. No LongMemEval accuracy or scale claims have been produced in this repository yet.
 
-The proposed package will connect [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant isolation, durable writes and measured retrieval. The current evidence is limited to pinned-package API inspection and local offline probes.
+The package connects [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant-scoped local storage, explicit ingestion modes, and configurable FTS, vector, or weighted reciprocal rank fusion search. Vector modes require a caller-supplied embedder. Remote `s3://` storage is currently rejected because it has not been validated.
+
+## Local quickstart
+
+```python
+import asyncio
+from strands_lancedb_memory import LanceDBMemoryStore
+
+async def main():
+    store = LanceDBMemoryStore(uri="./memory-db", tenant_id="example-user")
+    await store.initialize()
+    await store.add("My favorite color is blue")
+    for entry in await store.search("favorite color"):
+        print(entry.content)
+
+asyncio.run(main())
+```
+
+Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. In raw mode, create **one store instance and a distinct run ID per Agent**; Strands resets its sequence numbers for each Agent. Reuse an ID only to replay that same Agent run. For retries interleaved with later fact updates, pass a stable `metadata.idempotency_key`. Fact extraction may call the configured model and is not exercised by the offline test suite.
+
+## Verify Phase 2
+
+```powershell
+uv sync --locked
+uv run pytest tests --cov=strands_lancedb_memory --cov-fail-under=90
+uv run ruff check src tests experiments
+uv run mypy --strict src/strands_lancedb_memory
+uv run python experiments/phase2_cross_process_probe.py
+```
+
+The two-process probe saves its recorded result in `results/phase2_cross_process_probe.json` when invoked with `--save results/phase2_cross_process_probe.json`. Its initial run without a process lock stored 10 of 20 rows and one writer failed. After adding a local file lock, both writers succeeded and all 20 rows were present; this is a bounded correctness probe, not a throughput or arbitrary multi-host guarantee. See [current limitations](docs/LIMITATIONS.md).
 
 ## Review the evidence
 
@@ -10,7 +40,7 @@ The proposed package will connect [Strands Agents](https://github.com/strands-ag
 - [Prior art](docs/PRIOR_ART.md): MongoDB, Pixeltable, Neo4j and Strands file-store design patterns.
 - [Agent lifecycle](docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
 
-[Design proposal](docs/DESIGN.md): alternatives, test plan, public API proposal and approval questions. This is the Phase 1 review gate before implementation.
+[Design proposal](docs/DESIGN.md): alternatives and the original Phase 1 rationale. The implementation evidence and remaining limits are recorded separately.
 
 ## Reproduce Phase 0
 

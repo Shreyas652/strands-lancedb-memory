@@ -21,7 +21,12 @@ def main() -> None:
         ]
     )
     rows = [
-        {"id": "a", "tenant": "alice", "text": "prefers blue", "vector": [1.0, 0.0, 0.0]},
+        {
+            "id": "a",
+            "tenant": "alice",
+            "text": "prefers blue",
+            "vector": [1.0, 0.0, 0.0],
+        },
         {"id": "b", "tenant": "bob", "text": "prefers blue", "vector": [1.0, 0.0, 0.0]},
     ]
     with tempfile.TemporaryDirectory() as tmp:
@@ -36,9 +41,18 @@ def main() -> None:
             .rerank(RRFReranker())
         )
         hybrid = query.limit(5).to_list()
-        table.merge_insert("id").when_matched_update_all().when_not_matched_insert_all().execute(
+        table.merge_insert(
+            "id"
+        ).when_matched_update_all().when_not_matched_insert_all().execute(
             pa.Table.from_pylist(
-                [{"id": "a", "tenant": "alice", "text": "prefers green", "vector": [0.0, 1.0, 0.0]}],
+                [
+                    {
+                        "id": "a",
+                        "tenant": "alice",
+                        "text": "prefers green",
+                        "vector": [0.0, 1.0, 0.0],
+                    }
+                ],
                 schema=schema,
             )
         )
