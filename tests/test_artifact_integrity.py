@@ -1,8 +1,20 @@
 """Raw rows, not a hand-edited summary, determine reported benchmark metrics."""
 
+import hashlib
+
 import pytest
 
-from scripts.check_artifact_integrity import _check_rows
+from scripts.check_artifact_integrity import _check_freeze_hash, _check_rows
+
+
+def test_frozen_config_hash_accepts_lf_or_crlf_only():
+    lf = b'{\n  "status": "FROZEN"\n}\n'
+    crlf = lf.replace(b"\n", b"\r\n")
+    _check_freeze_hash(hashlib.sha256(lf).hexdigest(), lf)
+    _check_freeze_hash(hashlib.sha256(crlf).hexdigest(), lf)
+    _check_freeze_hash(hashlib.sha256(crlf).hexdigest(), crlf)
+    with pytest.raises(ValueError, match="both LF and CRLF"):
+        _check_freeze_hash(hashlib.sha256(b"changed").hexdigest(), lf)
 
 
 def test_answer_summary_cannot_hide_an_incorrect_row():

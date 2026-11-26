@@ -23,11 +23,25 @@ RUNNERS = {
     "frozen_answers.json": "evals/frozen_answers.py",
     "second_judge.json": "evals/second_judge.py",
     "all_500_summary.json": "evals/all_500.py",
+    "paired_significance.json": "evals/paired_significance.py",
     "scale_1k.json": "experiments/scale_memory.py",
     "scale_10k.json": "experiments/scale_memory.py",
     "scale_100k.json": "experiments/scale_memory.py",
 }
 REQUIRED = {"dev_retrieval.json", "scale_1k.json", "scale_10k.json", "scale_100k.json"}
+
+
+def _check_freeze_hash(saved: str, frozen_bytes: bytes) -> None:
+    """Accept the committed LF bytes or their original Windows CRLF encoding."""
+    lf = frozen_bytes.replace(b"\r\n", b"\n")
+    if b"\r" in lf:
+        raise ValueError("frozen config has unexpected line endings")
+    hashes = {
+        hashlib.sha256(lf).hexdigest(),
+        hashlib.sha256(lf.replace(b"\n", b"\r\n")).hexdigest(),
+    }
+    if saved not in hashes:
+        raise ValueError("freeze_sha256 differs from both LF and CRLF frozen config")
 
 
 def _close(actual: float, saved: float) -> None:
@@ -157,6 +171,15 @@ def main() -> None:
         actual = hashlib.sha256((ROOT / source).read_bytes()).hexdigest()
         if report["runner_sha256"] != actual:
             raise ValueError(f"runner hash differs for {filename}; rerun its benchmark")
+        if "freeze_sha256" in report:
+            _check_freeze_hash(
+                report["freeze_sha256"],
+                (ROOT / "results/frozen_config.json").read_bytes(),
+            )
+        if filename == "paired_significance.json":
+            source = (ROOT / "results/frozen_answers.json").read_bytes()
+            if report["frozen_answers_sha256"] != hashlib.sha256(source).hexdigest():
+                raise ValueError("paired significance source hash differs")
         _check_rows(report)
         if filename.startswith("scale_"):
             _check_scale(report)

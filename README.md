@@ -1,14 +1,24 @@
 # strands-lancedb-memory
 
-**Status: implemented and benchmarked.** On all 500 LongMemEval-S questions, the frozen LanceDB FTS configuration answered 255 correctly with a pinned GPT-4o judge, versus 240 for Strands' FileMemoryStore and 30 without memory. The 100-question development split selected the configuration before the 400-question test split was opened.
+**Status: implemented and benchmarked.** On the 400 held-out LongMemEval-S questions, the frozen LanceDB FTS configuration answered 201 correctly with a pinned GPT-4o judge, versus 186 for Strands' FileMemoryStore and 27 without memory. The 100-question development split selected this configuration before the held-out evaluation. The 255/500 combined total below is descriptive because it includes those 100 development questions.
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| LanceDB FTS answer accuracy, all 500 | 51.0% | `results/all_500_summary.json#/summary/lancedb_fts:3/accuracy` |
-| FileMemoryStore answer accuracy, all 500 | 48.0% | `results/all_500_summary.json#/summary/file:3/accuracy` |
-| No-memory answer accuracy, all 500 | 6.0% | `results/all_500_summary.json#/summary/no_memory:0/accuracy` |
 | LanceDB FTS answer accuracy, held-out 400 | 50.25% | `results/frozen_answers.json#/summary/lancedb_fts:3/accuracy` |
 | FileMemoryStore answer accuracy, held-out 400 | 46.5% | `results/frozen_answers.json#/summary/file:3/accuracy` |
+| No-memory answer accuracy, held-out 400 | 6.75% | `results/frozen_answers.json#/summary/no_memory:0/accuracy` |
+| LanceDB FTS answer accuracy, descriptive all 500 | 51.0% | `results/all_500_summary.json#/summary/lancedb_fts:3/accuracy` |
+| FileMemoryStore answer accuracy, descriptive all 500 | 48.0% | `results/all_500_summary.json#/summary/file:3/accuracy` |
+| No-memory answer accuracy, descriptive all 500 | 6.0% | `results/all_500_summary.json#/summary/no_memory:0/accuracy` |
+
+The 201/400 versus 186/400 difference is not statistically significant at the 5% level (exact two-sided McNemar p = 0.063). This is not a general superiority claim.
+
+| Paired held-out metric | Value | JSON source |
+| --- | ---: | --- |
+| FTS-only correct | 36 | `results/paired_significance.json#/fts_only_correct` |
+| File-only correct | 21 | `results/paired_significance.json#/file_only_correct` |
+| Exact two-sided McNemar p | 0.063 | `results/paired_significance.json#/exact_mcnemar_two_sided_p` |
+| Paired accuracy difference, points | 3.75 | `results/paired_significance.json#/paired_accuracy_difference_points` |
 
 | Question type, all 500 | LanceDB FTS | FileMemoryStore | Questions |
 | --- | ---: | ---: | ---: |
@@ -19,7 +29,7 @@
 | User statement | 64 | 56 | 70 |
 | Temporal reasoning | 49 | 43 | 133 |
 
-These are results from this repository's full-session memory and `gpt-4o-mini-2024-07-18` reader, graded with the official LongMemEval prompt using pinned `gpt-4o-2024-08-06`. They are **not an official leaderboard score**. The 15-question held-out advantage over FileMemoryStore is modest; the benchmark does not establish a general performance ranking. The main result does not measure Strands' own fact extraction. See [the protocol and raw reports](docs/EXPERIMENTS.md).
+These are results from this repository's full-session memory and `gpt-4o-mini-2024-07-18` reader, graded with the official LongMemEval prompt using pinned `gpt-4o-2024-08-06`. They are **not an official leaderboard score**. The 15-question held-out advantage over FileMemoryStore is modest; the benchmark does not establish a general performance ranking. The main result does not measure Strands' own fact extraction. The 49/50 second-judge agreement used `gpt-4o-mini-2024-07-18`, the same model family as the reader, so it is a weak independence check. Future work: re-judge the same 50-question sample with a different model family. See [the protocol and raw reports](docs/EXPERIMENTS.md).
 
 The package connects [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant-scoped local storage, explicit ingestion modes, and configurable FTS, vector, or weighted reciprocal rank fusion search. Vector modes require a caller-supplied embedder. Remote `s3://` storage is currently rejected because it has not been validated.
 

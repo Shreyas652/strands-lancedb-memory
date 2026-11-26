@@ -62,6 +62,8 @@ Weight 0.30 tied FTS at hit@5 and improved hit@10 by one question; equal weighti
 
 `evals.freeze` considers the full-session package candidates only: FTS, vector-only, and each measured weighted hybrid, at result limits 3, 5, and 10. It requires every arm in the grid and selects the one with the most correct development answers. Ties go to FTS before hybrid before vector, then to the smaller result limit, then lexical arm name. It verifies identical reader and judge settings and stores the source report hashes before opening the sealed test split. Fact-shaped memories are evaluated as an ablation but are not a frozen package candidate because their query-independent extraction harness is separate from Strands' production `ModelExtractor` behavior. The resulting `results/frozen_config.json` selects LanceDB FTS at top 3, with 54/100 correct development answers. This exact configuration was used for the 400-question held-out run.
 
+The config's `frozen_at_utc` timestamp is self-reported, and the config was committed together with the result files, so the timestamp alone does not independently prove the freeze preceded testing. Future phases should commit or tag the frozen config before running a held-out set. The recorded `freeze_sha256` is for the original Windows CRLF encoding (`6dabcbc3…`); the committed LF encoding hashes to `df351c4e…`. The integrity check accepts either encoding of the same config without changing recorded hashes.
+
 ## Frozen held-out test result
 
 `results/frozen_retrieval.json` contains 1,200 retrieval rows: 400 questions in each of the three stores. `results/frozen_answers.json` contains 1,600 judged rows: the three stores at top 3 plus no-memory controls. The test harness did not reselect a weight or result limit after seeing these data.
@@ -73,7 +75,7 @@ Weight 0.30 tied FTS at hit@5 and improved hit@10 by one question; equal weighti
 | TestMemoryStore | 84.00% | 89.00% | 174 | 43.50% |
 | No memory | — | — | 27 | 6.75% |
 
-The FTS and file arms agreed on 165 correct questions; FTS alone was correct on 36, and the file arm alone on 21. Thus the net held-out difference is 15/400, or 3.75 percentage points. This single benchmark run and model judge do not establish a general superiority claim. On the AWS retrieval host, FTS search p50 was 491.4 ms versus 59.2 ms for FileMemoryStore and 20.8 ms for the in-memory test store; these timings include each store's measured search path, not ingestion or model latency.
+The FTS and file arms agreed on 165 correct questions; FTS alone was correct on 36, and the file arm alone on 21. Thus the net held-out difference is 15/400, or 3.75 percentage points. The exact two-sided McNemar test gives p = 0.0627 (0.063 to three decimals), so the difference is not statistically significant at the 5% level. `results/paired_significance.json` records the paired counts, p-value, and source report hash. This single benchmark run and model judge do not establish a general superiority claim. On the AWS retrieval host, FTS search p50 was 491.4 ms versus 59.2 ms for FileMemoryStore and 20.8 ms for the in-memory test store; these timings include each store's measured search path, not ingestion or model latency.
 
 The retrieval stage used a temporary Ubuntu 24.04 `c7i.xlarge` EC2 instance. Frozen answer grading used a temporary `c7i.large` instance and a scoped Secrets Manager secret; the key was not included in the benchmark bundle or logs. Both runs resumed from their durable checkpoints/ledger. The verified reports and ledger were downloaded before the temporary instances, roles, security groups, buckets, and secret were removed. Cloud compute charges are separate from the model API ledger.
 
@@ -81,7 +83,7 @@ The retrieval stage used a temporary Ubuntu 24.04 `c7i.xlarge` EC2 instance. Fro
 
 `results/all_500_summary.json` joins the 100 development questions to the 400 frozen test questions without changing the configuration. LanceDB FTS answered 255/500 (51.0%) correctly; FileMemoryStore answered 240/500 (48.0%), TestMemoryStore 219/500 (43.8%), and no-memory 30/500 (6.0%). This is a combined descriptive result, not an additional held-out score or an official leaderboard entry. The question-type breakdown is in the raw report and README; preferences (2/30 for FTS) and multi-session questions (42/133) remain weak points.
 
-`results/second_judge.json` regraded a fixed-seed sample of 50 held-out answer rows with a second model. It agreed with the primary judge on 49/50 (98%). The two model judgments are correlated evidence, not a substitute for human adjudication. The shared model ledger totals $4.14651835 after this check, below the $20 cap. This excludes AWS compute and storage charges.
+`results/second_judge.json` regraded a fixed-seed sample of 50 held-out answer rows with `gpt-4o-mini-2024-07-18`. It agreed with the primary judge on 49/50 (98%). This is the same model family as the reader that wrote the answers, so the agreement is a weak independence check, not a substitute for human adjudication. **Future work:** Re-judge the same 50-question sample with a different model family. The shared model ledger totals $4.14651835 after this check, below the $20 cap. This excludes AWS compute and storage charges.
 
 ## Search scale
 
