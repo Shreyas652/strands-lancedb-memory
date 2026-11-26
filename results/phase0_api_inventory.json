@@ -1,0 +1,232 @@
+[
+  {
+    "name": "strands.Agent",
+    "signature": "(model: strands.models.model.Model | str | strands.models.routing.router.ModelRouter | None = None, messages: list[strands.types.content.Message] | None = None, tools: list[typing.Union[str, dict[str, str], ForwardRef('ToolProvider'), typing.Any]] | None = None, system_prompt: str | list[strands.types.content.SystemContentBlock] | None = None, structured_output_model: type[pydantic.main.BaseModel] | None = None, callback_handler: collections.abc.Callable[..., typing.Any] | strands.agent.agent._DefaultCallbackHandlerSentinel | None = <strands.agent.agent._DefaultCallbackHandlerSentinel object at 0xADDR>, conversation_manager: strands.agent.conversation_manager.conversation_manager.ConversationManager | None = None, record_direct_tool_call: bool = True, load_tools_from_directory: bool = False, trace_attributes: collections.abc.Mapping[str, str | bool | float | int | list[str] | list[bool] | list[float] | list[int] | collections.abc.Sequence[str] | collections.abc.Sequence[bool] | collections.abc.Sequence[int] | collections.abc.Sequence[float]] | None = None, *, baggage_attributes: collections.abc.Mapping[str, str] | None = None, aux_model: strands.models.model.Model | str | None = None, agent_id: str | None = None, name: str | None = None, description: str | None = None, state: strands.types.json_dict.JSONSerializableDict | dict | None = None, context_manager: 'ContextManagerStrategy | ContextManagerConfig | ContextManager | Literal[False] | None' = None, plugins: list[strands.plugins.plugin.Plugin] | None = None, hooks: list[strands.hooks.registry.HookProvider | strands.hooks.registry.HookCallback] | None = None, interventions: list[strands.interventions.handler.InterventionHandler] | None = None, session_manager: strands.session.session_manager.SessionManager | None = None, memory_manager: strands.memory.memory_manager.MemoryManager | strands.memory.types.MemoryManagerConfig | None = None, structured_output_prompt: str | None = None, tool_executor: strands.tools.executors._executor.ToolExecutor | None = None, retry_strategy: strands.event_loop._retry.ModelRetryStrategy | strands.agent.agent._DefaultRetryStrategySentinel | None = <strands.agent.agent._DefaultRetryStrategySentinel object at 0xADDR>, concurrent_invocation_mode: strands.types.agent.ConcurrentInvocationMode = <ConcurrentInvocationMode.THROW: 'throw'>, checkpointing: bool = False, sandbox: strands.sandbox.base.Sandbox | None = None, storage: strands.storage.storage.Storage | None = None, background_tasks: bool | strands.background_tasks._types.BackgroundTasksConfig | None = None)",
+    "source": "strands/agent/agent.py:221"
+  },
+  {
+    "name": "strands.models.Model",
+    "signature": "()",
+    "source": "strands/models/model.py:222"
+  },
+  {
+    "name": "strands.memory.MemoryStore",
+    "signature": "(*args, **kwargs)",
+    "source": "strands/memory/types.py:263"
+  },
+  {
+    "name": "strands.memory.MemoryStore.search",
+    "signature": "(self, query: 'str', options: 'SearchOptions | None' = None) -> 'list[MemoryEntry]'",
+    "source": "strands/memory/types.py:284"
+  },
+  {
+    "name": "strands.memory.MemoryStore.add",
+    "signature": "(self, content: 'str', metadata: 'Metadata | None' = None) -> 'Any'",
+    "source": "strands/memory/types.py:295"
+  },
+  {
+    "name": "strands.memory.MemoryStore.add_messages",
+    "signature": "(self, messages: 'list[Message]', context: 'AddMessagesContext | None' = None) -> 'Any'",
+    "source": "strands/memory/types.py:304"
+  },
+  {
+    "name": "strands.memory.MemoryStore.initialize",
+    "signature": "(self) -> 'None'",
+    "source": "strands/memory/types.py:313"
+  },
+  {
+    "name": "strands.memory.MemoryStore.get_tools",
+    "signature": "(self) -> 'list[AgentTool]'",
+    "source": "strands/memory/types.py:321"
+  },
+  {
+    "name": "strands.memory.MemoryEntry",
+    "signature": "(content: 'str', store_name: 'str | None' = None, metadata: 'Metadata | None' = None) -> None",
+    "source": "strands/memory/types.py:24"
+  },
+  {
+    "name": "strands.memory.AddMessagesContext",
+    "signature": "(sequence_numbers: 'list[int] | None' = None) -> None",
+    "source": "strands/memory/types.py:48"
+  },
+  {
+    "name": "strands.memory.MemoryManager",
+    "signature": "(stores: 'list[MemoryStore]', search_tool_config: 'MemoryToolConfig | bool' = True, add_tool_config: 'MemoryAddToolConfig | bool' = False, injection: 'MemoryInjectionConfig | bool' = True) -> 'None'",
+    "source": "strands/memory/memory_manager.py:72"
+  },
+  {
+    "name": "strands.memory.MemoryManager.search",
+    "signature": "(self, query: 'str', options: 'MemorySearchOptions | None' = None) -> 'list[MemoryEntry]'",
+    "source": "strands/memory/memory_manager.py:296"
+  },
+  {
+    "name": "strands.memory.MemoryManager.add",
+    "signature": "(self, content: 'str', options: 'MemoryAddOptions | None' = None, *, _detached: 'bool' = False) -> 'None'",
+    "source": "strands/memory/memory_manager.py:364"
+  },
+  {
+    "name": "strands.memory.MemoryManager.flush",
+    "signature": "(self) -> 'None'",
+    "source": "strands/memory/memory_manager.py:767"
+  },
+  {
+    "name": "strands.memory.ExtractionConfig",
+    "signature": "TypedDict fields: {'trigger': ForwardRef('ExtractionTrigger | list[ExtractionTrigger]', module='strands.memory.extraction.types'), 'extractor': ForwardRef('Extractor', module='strands.memory.extraction.types'), 'filter': ForwardRef('MemoryMessageFilter', module='strands.memory.extraction.types')}",
+    "source": "strands/memory/extraction/types.py:120"
+  },
+  {
+    "name": "strands.memory.ModelExtractor",
+    "signature": "(model: 'Model | None' = None, system_prompt: 'str | None' = None) -> 'None'",
+    "source": "strands/memory/extraction/model_extractor.py:39"
+  },
+  {
+    "name": "strands.memory.InvocationTrigger",
+    "signature": "()",
+    "source": "strands/memory/extraction/triggers.py:16"
+  },
+  {
+    "name": "strands.memory.IntervalTrigger",
+    "signature": "(turns: 'int') -> 'None'",
+    "source": "strands/memory/extraction/triggers.py:45"
+  },
+  {
+    "name": "strands.vended.TestMemoryStore",
+    "signature": "(**store_config: 'Unpack[TestMemoryStoreConfig]') -> 'None'",
+    "source": "strands/vended_memory_stores/test_memory_store/store.py:56"
+  },
+  {
+    "name": "strands.vended.FileMemoryStore",
+    "signature": "(**config: 'Unpack[FileMemoryStoreConfig]') -> 'None'",
+    "source": "strands/vended_memory_stores/file_memory_store/store.py:86"
+  },
+  {
+    "name": "strands.vended.BedrockKnowledgeBaseStore",
+    "signature": "(**store_config: 'Unpack[BedrockKnowledgeBaseStoreConfig]') -> 'None'",
+    "source": "strands/vended_memory_stores/bedrock_knowledge_base/store.py:86"
+  },
+  {
+    "name": "lancedb.connect",
+    "signature": "(uri: Union[str, pathlib._local.Path, NoneType] = None, *, api_key: Optional[str] = None, region: str = 'us-east-1', host_override: Optional[str] = None, sql_host_override: Optional[str] = None, read_consistency_interval: Optional[datetime.timedelta] = None, request_thread_pool: Union[int, concurrent.futures.thread.ThreadPoolExecutor, NoneType] = None, client_config: Union[lancedb.remote.ClientConfig, Dict[str, Any], NoneType] = None, storage_options: Optional[Dict[str, str]] = None, session: Optional[lancedb._lancedb.Session] = None, manifest_enabled: bool = False, namespace_client_impl: Optional[str] = None, namespace_client_properties: Optional[Dict[str, str]] = None, namespace_client_pushdown_operations: Optional[List[str]] = None, **kwargs: Any) -> lancedb.db.DBConnection",
+    "source": "lancedb/__init__.py:114"
+  },
+  {
+    "name": "lancedb.DBConnection.create_table",
+    "signature": "(self, name: 'str', data: 'Optional[DATA]' = None, schema: 'Optional[Union[pa.Schema, LanceModel]]' = None, mode: 'str' = 'create', exist_ok: 'bool' = False, on_bad_vectors: 'str' = 'error', fill_value: 'float' = 0.0, embedding_functions: 'Optional[List[EmbeddingFunctionConfig]]' = None, *, namespace_path: 'Optional[List[str]]' = None, storage_options: 'Optional[Dict[str, str]]' = None, data_storage_version: 'Optional[str]' = None, enable_v2_manifest_paths: 'Optional[bool]' = None) -> 'Table'",
+    "source": "lancedb/db.py:378"
+  },
+  {
+    "name": "lancedb.DBConnection.open_table",
+    "signature": "(self, name: 'str', *, namespace_path: 'Optional[List[str]]' = None, storage_options: 'Optional[Dict[str, str]]' = None, index_cache_size: 'Optional[int]' = None, branch: 'Optional[str]' = None, version: 'Optional[int]' = None) -> 'Table'",
+    "source": "lancedb/db.py:561"
+  },
+  {
+    "name": "lancedb.DBConnection.list_tables",
+    "signature": "(self, namespace_path: 'Optional[List[str]]' = None, page_token: 'Optional[str]' = None, limit: 'Optional[int]' = None) -> 'TableListing'",
+    "source": "lancedb/db.py:321"
+  },
+  {
+    "name": "lancedb.Table.add",
+    "signature": "(self, data: 'DATA', mode: 'AddMode' = 'append', on_bad_vectors: 'OnBadVectorsType' = 'error', fill_value: 'float' = 0.0, progress: 'Optional[Union[bool, Callable, Any]]' = None, write_parallelism: 'Optional[int]' = None, allow_external_blob_outside_bases: 'bool' = False) -> 'AddResult'",
+    "source": "lancedb/table.py:2171"
+  },
+  {
+    "name": "lancedb.Table.create_index",
+    "signature": "(self, metric: 'str' = 'l2', num_partitions: 'Optional[int]' = None, num_sub_vectors: 'Optional[int]' = None, vector_column_name: 'str' = 'vector', replace: 'bool' = True, accelerator: 'Optional[str]' = None, index_cache_size: 'Optional[int]' = None, num_bits: 'int' = 8, index_type: \"Literal['IVF_FLAT', 'IVF_SQ', 'IVF_PQ', 'IVF_RQ', 'IVF_HNSW_SQ', 'IVF_HNSW_PQ', 'IVF_HNSW_FLAT']\" = 'IVF_PQ', max_iterations: 'int' = 50, sample_rate: 'int' = 256, m: 'int' = 20, ef_construction: 'int' = 300, *, config: 'Optional[IndexConfigType]' = None, wait_timeout: 'Optional[timedelta]' = None, name: 'Optional[str]' = None, train: 'bool' = True, target_partition_size: 'Optional[int]' = None)",
+    "source": "lancedb/table.py:1837"
+  },
+  {
+    "name": "lancedb.Table.create_fts_index",
+    "signature": "(self, field_names: 'Union[str, List[str]]', *, ordering_field_names: 'Optional[Union[str, List[str]]]' = None, replace: 'bool' = False, writer_heap_size: 'Optional[int]' = 1073741824, use_tantivy: 'bool' = False, tokenizer_name: 'Optional[str]' = None, with_position: 'bool' = False, base_tokenizer: 'BaseTokenizerType' = 'simple', language: 'str' = 'English', max_token_length: 'Optional[int]' = 40, lower_case: 'bool' = True, stem: 'Optional[bool]' = None, remove_stop_words: 'Optional[bool]' = None, custom_stop_words: 'Optional[List[str]]' = None, ascii_folding: 'bool' = True, ngram_min_length: 'int' = 3, ngram_max_length: 'int' = 3, prefix_only: 'bool' = False, block_size: 'int' = 128, document_granularity: 'DocumentGranularity' = <DocumentGranularity.ROW: 'row'>, wait_timeout: 'Optional[timedelta]' = None, name: 'Optional[str]' = None)",
+    "source": "lancedb/table.py:2043"
+  },
+  {
+    "name": "lancedb.Table.merge_insert",
+    "signature": "(self, on: 'Union[str, Iterable[str]]') -> 'LanceMergeInsertBuilder'",
+    "source": "lancedb/table.py:2245"
+  },
+  {
+    "name": "lancedb.Table.search",
+    "signature": "(self, query: \"Optional[Union[VEC, str, 'PIL.Image.Image', Tuple, FullTextQuery]]\" = None, vector_column_name: 'Optional[str]' = None, query_type: 'QueryType' = 'auto', ordering_field_name: 'Optional[str]' = None, fts_columns: 'Optional[Union[str, List[str]]]' = None, fast_search: 'Optional[bool]' = None) -> 'LanceQueryBuilder'",
+    "source": "lancedb/table.py:2309"
+  },
+  {
+    "name": "lancedb.Table.optimize",
+    "signature": "(self, *, cleanup_older_than: 'Optional[timedelta]' = None, delete_unverified: 'bool' = False, retrain: 'bool' = False, compaction_options: 'Optional[CompactionOptions]' = None)",
+    "source": "lancedb/table.py:2852"
+  },
+  {
+    "name": "lancedb.Table.count_rows",
+    "signature": "(self, filter: 'Optional[str]' = None) -> 'int'",
+    "source": "lancedb/table.py:1527"
+  },
+  {
+    "name": "lancedb.Table.delete",
+    "signature": "(self, where: 'Union[str, Expr]') -> 'DeleteResult'",
+    "source": "lancedb/table.py:2667"
+  },
+  {
+    "name": "lancedb.LanceQueryBuilder.where",
+    "signature": "(self, where: 'Union[str, Expr]', prefilter: 'bool' = True) -> 'Self'",
+    "source": "lancedb/query.py:1395"
+  },
+  {
+    "name": "lancedb.LanceQueryBuilder.limit",
+    "signature": "(self, limit: 'Union[int, None]') -> 'Self'",
+    "source": "lancedb/query.py:1324"
+  },
+  {
+    "name": "lancedb.LanceQueryBuilder.to_list",
+    "signature": "(self, *, timeout: 'Optional[timedelta]' = None, blob_mode: 'BlobMode' = 'lazy') -> 'List[dict]'",
+    "source": "lancedb/query.py:1256"
+  },
+  {
+    "name": "lancedb.LanceHybridQueryBuilder.vector",
+    "signature": "(self, vector: 'Union[VEC, Tuple]') -> 'LanceHybridQueryBuilder'",
+    "source": "lancedb/query.py:3005"
+  },
+  {
+    "name": "lancedb.LanceHybridQueryBuilder.text",
+    "signature": "(self, text: 'str | FullTextQuery') -> 'LanceHybridQueryBuilder'",
+    "source": "lancedb/query.py:3021"
+  },
+  {
+    "name": "lancedb.LanceHybridQueryBuilder.rerank",
+    "signature": "(self, reranker: 'Reranker' = <lancedb.rerankers.rrf.RRFReranker object at 0xADDR>, normalize: 'str' = 'score') -> 'LanceHybridQueryBuilder'",
+    "source": "lancedb/query.py:2791"
+  },
+  {
+    "name": "lancedb.LanceMergeInsertBuilder.when_matched_update_all",
+    "signature": "(self, *, where: 'Optional[str]' = None) -> 'LanceMergeInsertBuilder'",
+    "source": "lancedb/merge.py:43"
+  },
+  {
+    "name": "lancedb.LanceMergeInsertBuilder.when_not_matched_insert_all",
+    "signature": "(self) -> 'LanceMergeInsertBuilder'",
+    "source": "lancedb/merge.py:68"
+  },
+  {
+    "name": "lancedb.LanceMergeInsertBuilder.execute",
+    "signature": "(self, new_data: 'DATA', on_bad_vectors: 'str' = 'error', fill_value: 'float' = 0.0, timeout: 'Optional[timedelta]' = None) -> 'MergeInsertResult'",
+    "source": "lancedb/merge.py:158"
+  },
+  {
+    "name": "lancedb.FTS",
+    "signature": "(with_position: bool = False, base_tokenizer: Union[Literal['simple', 'raw', 'whitespace', 'ngram', 'icu', 'icu/split'], str] = 'simple', language: str = 'English', max_token_length: Optional[int] = 40, lower_case: bool = True, stem: Optional[bool] = None, remove_stop_words: Optional[bool] = None, ascii_folding: bool = True, ngram_min_length: int = 3, ngram_max_length: int = 3, prefix_only: bool = False, block_size: int = 128, custom_stop_words: Optional[List[str]] = None, memory_limit: Optional[int] = None, num_workers: Optional[int] = None, document_granularity: lancedb.query.DocumentGranularity = <DocumentGranularity.ROW: 'row'>) -> None",
+    "source": "lancedb/index.py:111"
+  },
+  {
+    "name": "lancedb.BTree",
+    "signature": "() -> None",
+    "source": "lancedb/index.py:35"
+  },
+  {
+    "name": "lancedb.RRFReranker",
+    "signature": "(K: int = 60, return_score='relevance')",
+    "source": "lancedb/rerankers/rrf.py:15"
+  },
+  {
+    "name": "lancedb.expr.col",
+    "signature": "(name: 'str') -> 'Expr'",
+    "source": "lancedb/expr.py:287"
+  }
+]
