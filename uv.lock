@@ -1790,10 +1790,10 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "filelock", specifier = ">=3.20,<4" },
-    { name = "lancedb", specifier = "==0.41.0" },
-    { name = "pyarrow", specifier = "==26.0.1" },
-    { name = "strands-agents", specifier = "==1.65.0" },
+    { name = "filelock", specifier = ">=3.20,<5" },
+    { name = "lancedb", specifier = ">=0.41,<0.42" },
+    { name = "pyarrow", specifier = ">=26.0,<27" },
+    { name = "strands-agents", specifier = ">=1.65,<1.68" },
 ]
 
 [package.metadata.requires-dev]

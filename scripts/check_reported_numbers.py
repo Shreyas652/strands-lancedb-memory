@@ -10,6 +10,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = re.compile(r"^results/[A-Za-z0-9_./-]+\.json#/[-A-Za-z0-9_./:]+$")
+RESULT_LINK = re.compile(
+    r"^\[`(?P<reference>results/[A-Za-z0-9_./-]+\.json#/[-A-Za-z0-9_./:]+)`\]"
+    r"\(https://github\.com/Shreyas652/strands-lancedb-memory/blob/main/"
+    r"(?P<path>results/[A-Za-z0-9_./-]+\.json)\)$"
+)
 PAIRED_REFERENCES = {
     "/fts_only_correct",
     "/file_only_correct",
@@ -40,19 +45,27 @@ def _check(display: str, actual: float) -> None:
         )
 
 
+def _reference_from_link(cell: str) -> str:
+    match = RESULT_LINK.fullmatch(cell)
+    if match is None:
+        raise ValueError(f"invalid result link: {cell}")
+    reference = match["reference"]
+    if not SOURCE.fullmatch(reference) or match["path"] != reference.split("#", 1)[0]:
+        raise ValueError(f"result link does not match its source: {cell}")
+    return reference
+
+
 def main() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     checked = 0
     paired_references: set[str] = set()
     for line in readme.splitlines():
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if len(cells) != 3 or not cells[2].startswith("`results/"):
+        if len(cells) != 3 or "results/" not in cells[2]:
             continue
-        metric, display, reference = cells
+        metric, display, link = cells
         del metric
-        reference = reference.strip("`")
-        if not SOURCE.fullmatch(reference):
-            raise ValueError(f"invalid result reference: {reference}")
+        reference = _reference_from_link(link)
         file_name, pointer = reference.split("#", 1)
         if file_name == "results/paired_significance.json":
             paired_references.add(pointer)

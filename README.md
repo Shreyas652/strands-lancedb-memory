@@ -4,21 +4,21 @@
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| LanceDB FTS answer accuracy, held-out 400 | 50.25% | `results/frozen_answers.json#/summary/lancedb_fts:3/accuracy` |
-| FileMemoryStore answer accuracy, held-out 400 | 46.5% | `results/frozen_answers.json#/summary/file:3/accuracy` |
-| No-memory answer accuracy, held-out 400 | 6.75% | `results/frozen_answers.json#/summary/no_memory:0/accuracy` |
-| LanceDB FTS answer accuracy, descriptive all 500 | 51.0% | `results/all_500_summary.json#/summary/lancedb_fts:3/accuracy` |
-| FileMemoryStore answer accuracy, descriptive all 500 | 48.0% | `results/all_500_summary.json#/summary/file:3/accuracy` |
-| No-memory answer accuracy, descriptive all 500 | 6.0% | `results/all_500_summary.json#/summary/no_memory:0/accuracy` |
+| LanceDB FTS answer accuracy, held-out 400 | 50.25% | [`results/frozen_answers.json#/summary/lancedb_fts:3/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/frozen_answers.json) |
+| FileMemoryStore answer accuracy, held-out 400 | 46.5% | [`results/frozen_answers.json#/summary/file:3/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/frozen_answers.json) |
+| No-memory answer accuracy, held-out 400 | 6.75% | [`results/frozen_answers.json#/summary/no_memory:0/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/frozen_answers.json) |
+| LanceDB FTS answer accuracy, descriptive all 500 | 51.0% | [`results/all_500_summary.json#/summary/lancedb_fts:3/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/all_500_summary.json) |
+| FileMemoryStore answer accuracy, descriptive all 500 | 48.0% | [`results/all_500_summary.json#/summary/file:3/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/all_500_summary.json) |
+| No-memory answer accuracy, descriptive all 500 | 6.0% | [`results/all_500_summary.json#/summary/no_memory:0/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/all_500_summary.json) |
 
 The 201/400 versus 186/400 difference is not statistically significant at the 5% level (exact two-sided McNemar p = 0.063). This is not a general superiority claim.
 
 | Paired held-out metric | Value | JSON source |
 | --- | ---: | --- |
-| FTS-only correct | 36 | `results/paired_significance.json#/fts_only_correct` |
-| File-only correct | 21 | `results/paired_significance.json#/file_only_correct` |
-| Exact two-sided McNemar p | 0.063 | `results/paired_significance.json#/exact_mcnemar_two_sided_p` |
-| Paired accuracy difference, points | 3.75 | `results/paired_significance.json#/paired_accuracy_difference_points` |
+| FTS-only correct | 36 | [`results/paired_significance.json#/fts_only_correct`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/paired_significance.json) |
+| File-only correct | 21 | [`results/paired_significance.json#/file_only_correct`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/paired_significance.json) |
+| Exact two-sided McNemar p | 0.063 | [`results/paired_significance.json#/exact_mcnemar_two_sided_p`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/paired_significance.json) |
+| Paired accuracy difference, points | 3.75 | [`results/paired_significance.json#/paired_accuracy_difference_points`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/paired_significance.json) |
 
 | Question type, all 500 | LanceDB FTS | FileMemoryStore | Questions |
 | --- | ---: | ---: | ---: |
@@ -29,11 +29,15 @@ The 201/400 versus 186/400 difference is not statistically significant at the 5%
 | User statement | 64 | 56 | 70 |
 | Temporal reasoning | 49 | 43 | 133 |
 
-These are results from this repository's full-session memory and `gpt-4o-mini-2024-07-18` reader, graded with the official LongMemEval prompt using pinned `gpt-4o-2024-08-06`. They are **not an official leaderboard score**. The 15-question held-out advantage over FileMemoryStore is modest; the benchmark does not establish a general performance ranking. The main result does not measure Strands' own fact extraction. The 49/50 second-judge agreement used `gpt-4o-mini-2024-07-18`, the same model as the reader, so it is a weak independence check. Future work: re-judge the same 50-question sample with a different model family. See [the protocol and raw reports](docs/EXPERIMENTS.md).
+These are results from this repository's full-session memory and `gpt-4o-mini-2024-07-18` reader, graded with the official LongMemEval prompt using pinned `gpt-4o-2024-08-06`. They are **not an official leaderboard score**. The 15-question held-out advantage over FileMemoryStore is modest; the benchmark does not establish a general performance ranking. The main result does not measure Strands' own fact extraction. The 49/50 second-judge agreement used `gpt-4o-mini-2024-07-18`, the same model as the reader, so it is a weak independence check. Future work: re-judge the same 50-question sample with a different model family. See [the protocol and raw reports](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/EXPERIMENTS.md).
 
 The package connects [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant-scoped local storage, explicit ingestion modes, and configurable FTS, vector, or weighted reciprocal rank fusion search. Vector modes require a caller-supplied embedder. Remote `s3://` storage is currently rejected because it has not been validated.
 
+The offline store and Agent integration tests cover `strands-agents>=1.65,<1.68`, `lancedb>=0.41,<0.42`, `pyarrow>=26.0,<27`, and `filelock>=3.20,<5` at the lowest supported versions and the newest releases available on 25 November 2026. The benchmark remains pinned to Strands 1.65.0, LanceDB 0.41.0, PyArrow 26.0.1, and filelock 3.32.7 in `uv.lock`.
+
 ## Local quickstart
+
+After publication, install version 0.1.0 with `pip install strands-lancedb-memory==0.1.0`.
 
 ```python
 import asyncio
@@ -51,7 +55,7 @@ asyncio.run(main())
 
 Pass this store to `strands.memory.MemoryManager(stores=[store])` to enable Agent search and injection. Set `ingestion="raw"` with a stable `agent_run_id` to persist raw turns, or `ingestion="facts"` to use Strands' model extractor. In raw mode, create **one store instance and a distinct run ID per Agent**; Strands resets its sequence numbers for each Agent. Reuse an ID only to replay that same Agent run. For retries interleaved with later fact updates, pass a stable `metadata.idempotency_key`. Fact extraction may call the configured model and is not exercised by the offline test suite.
 
-The runnable [offline Agent example](examples/local_agent.py) uses a stub model and a temporary local directory. It tests integration without a cloud account; replace the stub with your configured Strands model for real answers.
+The runnable [offline Agent example](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/examples/local_agent.py) uses a stub model and a temporary local directory. It tests integration without a cloud account; replace the stub with your configured Strands model for real answers.
 
 ## Configuration
 
@@ -69,7 +73,7 @@ The runnable [offline Agent example](examples/local_agent.py) uses a stub model 
 | `update_strategy` | `"append"` | `"fact_key"` gives keyed facts current-value ranking and history. |
 | `recency_weight` | `0.0` | Optional nonnegative recency boost. |
 
-Writes and searches fail explicitly if storage, indexing, or embedding fails. They never switch to another backend automatically. See [design](docs/DESIGN.md) and [limitations](docs/LIMITATIONS.md) for concurrency and update semantics.
+Writes and searches fail explicitly if storage, indexing, or embedding fails. They never switch to another backend automatically. See [design](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/DESIGN.md) and [limitations](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/LIMITATIONS.md) for concurrency and update semantics.
 
 ## Verify Phase 2
 
@@ -81,15 +85,15 @@ uv run mypy --strict src/strands_lancedb_memory
 uv run python experiments/phase2_cross_process_probe.py
 ```
 
-The two-process probe saves its recorded result in `results/phase2_cross_process_probe.json` when invoked with `--save results/phase2_cross_process_probe.json`. Its initial run without a process lock stored 10 of 20 rows and one writer failed. After adding a local file lock, both writers succeeded and all 20 rows were present; this is a bounded correctness probe, not a throughput or arbitrary multi-host guarantee. See [current limitations](docs/LIMITATIONS.md).
+The two-process probe saves its recorded result in `results/phase2_cross_process_probe.json` when invoked with `--save results/phase2_cross_process_probe.json`. Its initial run without a process lock stored 10 of 20 rows and one writer failed. After adding a local file lock, both writers succeeded and all 20 rows were present; this is a bounded correctness probe, not a throughput or arbitrary multi-host guarantee. See [current limitations](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/LIMITATIONS.md).
 
 ## Review the evidence
 
-- [Installed API notes](docs/API_NOTES.md): exact Strands 1.65.0 and LanceDB 0.41.0 signatures and source lines.
-- [Prior art](docs/PRIOR_ART.md): MongoDB, Pixeltable, Neo4j and Strands file-store design patterns.
-- [Agent lifecycle](docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
+- [Installed API notes](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/API_NOTES.md): exact Strands 1.65.0 and LanceDB 0.41.0 signatures and source lines.
+- [Prior art](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/PRIOR_ART.md): MongoDB, Pixeltable, Neo4j and Strands file-store design patterns.
+- [Agent lifecycle](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/LIFECYCLE.md): real Agent with a stub model and logged memory calls.
 
-[Design proposal](docs/DESIGN.md): alternatives and the original Phase 1 rationale. The implementation evidence and remaining limits are recorded separately.
+[Design proposal](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/docs/DESIGN.md): alternatives and the original Phase 1 rationale. The implementation evidence and remaining limits are recorded separately.
 
 ## Synthetic local scale results
 
@@ -97,15 +101,15 @@ The script `experiments/scale_memory.py` bulk seeds normalized 32-dimensional sy
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| 1k exact p50 search, ms | 16.7 | `results/scale_1k.json#/exact_p50_search_ms` |
-| 1k indexed p50 search, ms | 18.9 | `results/scale_1k.json#/indexed_p50_search_ms` |
-| 1k indexed recall@10 | 95.3% | `results/scale_1k.json#/indexed_recall_at_10` |
-| 10k exact p50 search, ms | 23.8 | `results/scale_10k.json#/exact_p50_search_ms` |
-| 10k indexed p50 search, ms | 24.8 | `results/scale_10k.json#/indexed_p50_search_ms` |
-| 10k indexed recall@10 | 85.3% | `results/scale_10k.json#/indexed_recall_at_10` |
-| 100k exact p50 search, ms | 66.9 | `results/scale_100k.json#/exact_p50_search_ms` |
-| 100k indexed p50 search, ms | 62.9 | `results/scale_100k.json#/indexed_p50_search_ms` |
-| 100k indexed recall@10 | 78.0% | `results/scale_100k.json#/indexed_recall_at_10` |
+| 1k exact p50 search, ms | 16.7 | [`results/scale_1k.json#/exact_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_1k.json) |
+| 1k indexed p50 search, ms | 18.9 | [`results/scale_1k.json#/indexed_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_1k.json) |
+| 1k indexed recall@10 | 95.3% | [`results/scale_1k.json#/indexed_recall_at_10`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_1k.json) |
+| 10k exact p50 search, ms | 23.8 | [`results/scale_10k.json#/exact_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_10k.json) |
+| 10k indexed p50 search, ms | 24.8 | [`results/scale_10k.json#/indexed_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_10k.json) |
+| 10k indexed recall@10 | 85.3% | [`results/scale_10k.json#/indexed_recall_at_10`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_10k.json) |
+| 100k exact p50 search, ms | 66.9 | [`results/scale_100k.json#/exact_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_100k.json) |
+| 100k indexed p50 search, ms | 62.9 | [`results/scale_100k.json#/indexed_p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_100k.json) |
+| 100k indexed recall@10 | 78.0% | [`results/scale_100k.json#/indexed_recall_at_10`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/scale_100k.json) |
 
 The JSON files include hardware, pinned library versions, script hash, raw per-query timings and rankings, and the index build time. These are synthetic search measurements, not LongMemEval recall or answer accuracy.
 
@@ -115,20 +119,20 @@ The public [LongMemEval-S](https://github.com/xiaowu0162/LongMemEval) dataset wa
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| LanceDB FTS dev evidence hit@5 | 97.0% | `results/dev_retrieval.json#/summary/lancedb_fts/hit_at_5` |
-| FileMemoryStore dev evidence hit@5 | 94.0% | `results/dev_retrieval.json#/summary/file/hit_at_5` |
-| TestMemoryStore dev evidence hit@5 | 93.0% | `results/dev_retrieval.json#/summary/test/hit_at_5` |
-| LanceDB FTS dev p50 search, ms | 608.7 | `results/dev_retrieval.json#/summary/lancedb_fts/p50_search_ms` |
-| FileMemoryStore dev p50 search, ms | 1025.9 | `results/dev_retrieval.json#/summary/file/p50_search_ms` |
-| TestMemoryStore dev p50 search, ms | 54.2 | `results/dev_retrieval.json#/summary/test/p50_search_ms` |
+| LanceDB FTS dev evidence hit@5 | 97.0% | [`results/dev_retrieval.json#/summary/lancedb_fts/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
+| FileMemoryStore dev evidence hit@5 | 94.0% | [`results/dev_retrieval.json#/summary/file/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
+| TestMemoryStore dev evidence hit@5 | 93.0% | [`results/dev_retrieval.json#/summary/test/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
+| LanceDB FTS dev p50 search, ms | 608.7 | [`results/dev_retrieval.json#/summary/lancedb_fts/p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
+| FileMemoryStore dev p50 search, ms | 1025.9 | [`results/dev_retrieval.json#/summary/file/p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
+| TestMemoryStore dev p50 search, ms | 54.2 | [`results/dev_retrieval.json#/summary/test/p50_search_ms`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_retrieval.json) |
 
 The optional local `BAAI/bge-small-en-v1.5` model was also tested on the same 100 dev questions with a fingerprinted cached ONNX file. Weighted hybrid at vector weight 0.30 tied FTS on hit@5; equal weighting and vector-only were lower. These are retrieval comparisons only, and run-time conditions differed across the two jobs.
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| Weighted hybrid (vector weight 0.30) dev hit@5 | 97.0% | `results/vector_dev.json#/summary/hybrid_rrf:0.30/hit_at_5` |
-| Equal hybrid (vector weight 0.50) dev hit@5 | 96.0% | `results/vector_dev.json#/summary/hybrid_rrf:0.50/hit_at_5` |
-| Vector-only dev hit@5 | 93.0% | `results/vector_dev.json#/summary/vector:1.00/hit_at_5` |
+| Weighted hybrid (vector weight 0.30) dev hit@5 | 97.0% | [`results/vector_dev.json#/summary/hybrid_rrf:0.30/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/vector_dev.json) |
+| Equal hybrid (vector weight 0.50) dev hit@5 | 96.0% | [`results/vector_dev.json#/summary/hybrid_rrf:0.50/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/vector_dev.json) |
+| Vector-only dev hit@5 | 93.0% | [`results/vector_dev.json#/summary/vector:1.00/hit_at_5`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/vector_dev.json) |
 
 The split manifest (`results/longmemeval_dev_split.json`) records the dataset fingerprint and development IDs without publishing test IDs. Every retrieval row has the question ID, selected session IDs and ordinals, evidence rank, injected context size, and measured latency. The configuration was frozen before the held-out evaluation.
 
@@ -138,10 +142,10 @@ The same `gpt-4o-mini-2024-07-18` reader answered every question at temperature 
 
 | Metric | Value | JSON source |
 | --- | ---: | --- |
-| No memory dev answer accuracy | 3.0% | `results/dev_answers.json#/summary/no_memory:0/accuracy` |
-| FileMemoryStore dev answer accuracy, k=5 | 55.0% | `results/dev_answers.json#/summary/file:5/accuracy` |
-| LanceDB FTS dev answer accuracy, k=5 | 53.0% | `results/dev_answers.json#/summary/lancedb_fts:5/accuracy` |
-| TestMemoryStore dev answer accuracy, k=5 | 45.0% | `results/dev_answers.json#/summary/test:5/accuracy` |
+| No memory dev answer accuracy | 3.0% | [`results/dev_answers.json#/summary/no_memory:0/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_answers.json) |
+| FileMemoryStore dev answer accuracy, k=5 | 55.0% | [`results/dev_answers.json#/summary/file:5/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_answers.json) |
+| LanceDB FTS dev answer accuracy, k=5 | 53.0% | [`results/dev_answers.json#/summary/lancedb_fts:5/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_answers.json) |
+| TestMemoryStore dev answer accuracy, k=5 | 45.0% | [`results/dev_answers.json#/summary/test:5/accuracy`](https://github.com/Shreyas652/strands-lancedb-memory/blob/main/results/dev_answers.json) |
 
 LanceDB FTS had a higher evidence hit@5 than FileMemoryStore on this split, but two fewer correct answers at top 5. Retrieval hit rate alone did not predict answer quality. Both memory stores strongly improved on the no-memory arm. The dev set is only 100 questions; the frozen top-3 configuration and its held-out result are reported above.
 
