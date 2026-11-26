@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -21,7 +21,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: uv sync --locked --dev
-      - run: uv run ruff check src tests experiments
-      - run: uv run ruff format --check src tests experiments
+      - run: uv run ruff check src tests evals experiments scripts examples
+      - run: uv run ruff format --check src tests evals experiments scripts examples
       - run: uv run mypy --strict src/strands_lancedb_memory
+      - run: uv run python scripts/check_no_secrets.py
+      - run: uv run python scripts/check_reported_numbers.py
+      - run: uv run python scripts/check_artifact_integrity.py
       - run: uv run pytest tests --cov=strands_lancedb_memory --cov-fail-under=90

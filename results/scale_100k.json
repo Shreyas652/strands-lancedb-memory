@@ -1,0 +1,905 @@
+{
+  "status": "COMPLETE",
+  "rows": 100000,
+  "queries": 30,
+  "seed": 20261124,
+  "dimension": 32,
+  "index": "IVF_FLAT",
+  "partitions": 128,
+  "batch_size": 1000,
+  "versions": {
+    "lancedb": "0.41.0",
+    "strands_agents": "1.65.0",
+    "numpy": "2.5.5"
+  },
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "logical_cpus": 12
+  },
+  "runner_sha256": "3a635cb40498f70d7c9fa12c8d86a26a68760fc98a17cdb420206eb79357be41",
+  "bulk_seed_seconds": 2.8053660999867134,
+  "bulk_seed_rows_per_second": 35645.97148317776,
+  "index_build_seconds": 0.6218662000028417,
+  "bytes_on_disk": 32028996,
+  "exact_p50_search_ms": 66.85134998406284,
+  "exact_p95_search_ms": 88.26422501297199,
+  "indexed_p50_search_ms": 62.883549981052056,
+  "indexed_p95_search_ms": 83.30025501199997,
+  "indexed_recall_at_10": 0.7799999999999999,
+  "indexed_top_1_agreement": 1.0,
+  "per_query": [
+    {
+      "probe": "probe:15364",
+      "exact_search_ms": 54.84950001118705,
+      "indexed_search_ms": 71.85599999502301,
+      "exact_top_10": [
+        "synthetic-000015364",
+        "synthetic-000050106",
+        "synthetic-000099718",
+        "synthetic-000041297",
+        "synthetic-000049666",
+        "synthetic-000003432",
+        "synthetic-000084222",
+        "synthetic-000026033",
+        "synthetic-000044874",
+        "synthetic-000039239"
+      ],
+      "indexed_top_10": [
+        "synthetic-000015364",
+        "synthetic-000050106",
+        "synthetic-000099718",
+        "synthetic-000041297",
+        "synthetic-000049666",
+        "synthetic-000003432",
+        "synthetic-000026033",
+        "synthetic-000044874",
+        "synthetic-000039239",
+        "synthetic-000021189"
+      ]
+    },
+    {
+      "probe": "probe:34401",
+      "exact_search_ms": 70.03569998778403,
+      "indexed_search_ms": 64.91990003269166,
+      "exact_top_10": [
+        "synthetic-000034401",
+        "synthetic-000023851",
+        "synthetic-000046497",
+        "synthetic-000046316",
+        "synthetic-000006340",
+        "synthetic-000089710",
+        "synthetic-000092323",
+        "synthetic-000011359",
+        "synthetic-000053192",
+        "synthetic-000031148"
+      ],
+      "indexed_top_10": [
+        "synthetic-000034401",
+        "synthetic-000023851",
+        "synthetic-000046497",
+        "synthetic-000046316",
+        "synthetic-000006340",
+        "synthetic-000089710",
+        "synthetic-000092323",
+        "synthetic-000011359",
+        "synthetic-000053192",
+        "synthetic-000031148"
+      ]
+    },
+    {
+      "probe": "probe:66366",
+      "exact_search_ms": 74.35830001486465,
+      "indexed_search_ms": 73.85290000820532,
+      "exact_top_10": [
+        "synthetic-000066366",
+        "synthetic-000013006",
+        "synthetic-000054476",
+        "synthetic-000024214",
+        "synthetic-000052999",
+        "synthetic-000098160",
+        "synthetic-000055217",
+        "synthetic-000078545",
+        "synthetic-000080073",
+        "synthetic-000029394"
+      ],
+      "indexed_top_10": [
+        "synthetic-000066366",
+        "synthetic-000013006",
+        "synthetic-000054476",
+        "synthetic-000098160",
+        "synthetic-000055217",
+        "synthetic-000080073",
+        "synthetic-000029394",
+        "synthetic-000034894",
+        "synthetic-000059774",
+        "synthetic-000071122"
+      ]
+    },
+    {
+      "probe": "probe:37151",
+      "exact_search_ms": 81.56660001259297,
+      "indexed_search_ms": 69.30989999091253,
+      "exact_top_10": [
+        "synthetic-000037151",
+        "synthetic-000086405",
+        "synthetic-000065170",
+        "synthetic-000015125",
+        "synthetic-000085125",
+        "synthetic-000083678",
+        "synthetic-000005907",
+        "synthetic-000091103",
+        "synthetic-000025331",
+        "synthetic-000004176"
+      ],
+      "indexed_top_10": [
+        "synthetic-000037151",
+        "synthetic-000086405",
+        "synthetic-000065170",
+        "synthetic-000015125",
+        "synthetic-000085125",
+        "synthetic-000083678",
+        "synthetic-000005907",
+        "synthetic-000025331",
+        "synthetic-000004176",
+        "synthetic-000039493"
+      ]
+    },
+    {
+      "probe": "probe:31052",
+      "exact_search_ms": 93.74410001328215,
+      "indexed_search_ms": 59.04770002234727,
+      "exact_top_10": [
+        "synthetic-000031052",
+        "synthetic-000047994",
+        "synthetic-000051377",
+        "synthetic-000080338",
+        "synthetic-000011299",
+        "synthetic-000053379",
+        "synthetic-000067038",
+        "synthetic-000099447",
+        "synthetic-000016398",
+        "synthetic-000099908"
+      ],
+      "indexed_top_10": [
+        "synthetic-000031052",
+        "synthetic-000047994",
+        "synthetic-000051377",
+        "synthetic-000080338",
+        "synthetic-000011299",
+        "synthetic-000067038",
+        "synthetic-000090686",
+        "synthetic-000038215",
+        "synthetic-000034972",
+        "synthetic-000072410"
+      ]
+    },
+    {
+      "probe": "probe:84888",
+      "exact_search_ms": 67.07109999842942,
+      "indexed_search_ms": 62.49750003917143,
+      "exact_top_10": [
+        "synthetic-000084888",
+        "synthetic-000025963",
+        "synthetic-000060102",
+        "synthetic-000044209",
+        "synthetic-000040147",
+        "synthetic-000035964",
+        "synthetic-000073677",
+        "synthetic-000002928",
+        "synthetic-000038418",
+        "synthetic-000062671"
+      ],
+      "indexed_top_10": [
+        "synthetic-000084888",
+        "synthetic-000025963",
+        "synthetic-000060102",
+        "synthetic-000044209",
+        "synthetic-000040147",
+        "synthetic-000035964",
+        "synthetic-000073677",
+        "synthetic-000038418",
+        "synthetic-000062671",
+        "synthetic-000079626"
+      ]
+    },
+    {
+      "probe": "probe:53571",
+      "exact_search_ms": 61.27300002845004,
+      "indexed_search_ms": 66.18309998884797,
+      "exact_top_10": [
+        "synthetic-000053571",
+        "synthetic-000077677",
+        "synthetic-000094388",
+        "synthetic-000015546",
+        "synthetic-000087800",
+        "synthetic-000081649",
+        "synthetic-000041276",
+        "synthetic-000017201",
+        "synthetic-000077566",
+        "synthetic-000062565"
+      ],
+      "indexed_top_10": [
+        "synthetic-000053571",
+        "synthetic-000077677",
+        "synthetic-000094388",
+        "synthetic-000041276",
+        "synthetic-000017201",
+        "synthetic-000077566",
+        "synthetic-000062565",
+        "synthetic-000092952",
+        "synthetic-000074203",
+        "synthetic-000072392"
+      ]
+    },
+    {
+      "probe": "probe:14153",
+      "exact_search_ms": 67.9727999959141,
+      "indexed_search_ms": 61.57889997120947,
+      "exact_top_10": [
+        "synthetic-000014153",
+        "synthetic-000053919",
+        "synthetic-000046789",
+        "synthetic-000071459",
+        "synthetic-000021815",
+        "synthetic-000061849",
+        "synthetic-000001049",
+        "synthetic-000052847",
+        "synthetic-000020143",
+        "synthetic-000042802"
+      ],
+      "indexed_top_10": [
+        "synthetic-000014153",
+        "synthetic-000053919",
+        "synthetic-000046789",
+        "synthetic-000071459",
+        "synthetic-000021815",
+        "synthetic-000061849",
+        "synthetic-000001049",
+        "synthetic-000052847",
+        "synthetic-000020143",
+        "synthetic-000042802"
+      ]
+    },
+    {
+      "probe": "probe:69851",
+      "exact_search_ms": 67.00239999918267,
+      "indexed_search_ms": 62.787999981082976,
+      "exact_top_10": [
+        "synthetic-000069851",
+        "synthetic-000070115",
+        "synthetic-000017727",
+        "synthetic-000069771",
+        "synthetic-000060962",
+        "synthetic-000026659",
+        "synthetic-000016709",
+        "synthetic-000097418",
+        "synthetic-000025568",
+        "synthetic-000007388"
+      ],
+      "indexed_top_10": [
+        "synthetic-000069851",
+        "synthetic-000069771",
+        "synthetic-000060962",
+        "synthetic-000016709",
+        "synthetic-000097418",
+        "synthetic-000025568",
+        "synthetic-000028565",
+        "synthetic-000015676",
+        "synthetic-000060071",
+        "synthetic-000005807"
+      ]
+    },
+    {
+      "probe": "probe:2011",
+      "exact_search_ms": 63.466799969319254,
+      "indexed_search_ms": 77.74869998684153,
+      "exact_top_10": [
+        "synthetic-000002011",
+        "synthetic-000072036",
+        "synthetic-000093681",
+        "synthetic-000015986",
+        "synthetic-000014706",
+        "synthetic-000025140",
+        "synthetic-000079509",
+        "synthetic-000069906",
+        "synthetic-000070857",
+        "synthetic-000021056"
+      ],
+      "indexed_top_10": [
+        "synthetic-000002011",
+        "synthetic-000072036",
+        "synthetic-000093681",
+        "synthetic-000015986",
+        "synthetic-000014706",
+        "synthetic-000025140",
+        "synthetic-000079509",
+        "synthetic-000069906",
+        "synthetic-000070857",
+        "synthetic-000021056"
+      ]
+    },
+    {
+      "probe": "probe:63797",
+      "exact_search_ms": 60.00820000190288,
+      "indexed_search_ms": 59.583600028418005,
+      "exact_top_10": [
+        "synthetic-000063797",
+        "synthetic-000034424",
+        "synthetic-000011499",
+        "synthetic-000092138",
+        "synthetic-000042477",
+        "synthetic-000047921",
+        "synthetic-000039474",
+        "synthetic-000079011",
+        "synthetic-000011623",
+        "synthetic-000033834"
+      ],
+      "indexed_top_10": [
+        "synthetic-000063797",
+        "synthetic-000034424",
+        "synthetic-000011499",
+        "synthetic-000092138",
+        "synthetic-000047921",
+        "synthetic-000039474",
+        "synthetic-000079011",
+        "synthetic-000011623",
+        "synthetic-000033834",
+        "synthetic-000035379"
+      ]
+    },
+    {
+      "probe": "probe:17684",
+      "exact_search_ms": 64.7649000165984,
+      "indexed_search_ms": 56.51729996316135,
+      "exact_top_10": [
+        "synthetic-000017684",
+        "synthetic-000050412",
+        "synthetic-000022363",
+        "synthetic-000086809",
+        "synthetic-000034425",
+        "synthetic-000013727",
+        "synthetic-000012128",
+        "synthetic-000096625",
+        "synthetic-000008535",
+        "synthetic-000016326"
+      ],
+      "indexed_top_10": [
+        "synthetic-000017684",
+        "synthetic-000050412",
+        "synthetic-000022363",
+        "synthetic-000034425",
+        "synthetic-000096625",
+        "synthetic-000056116",
+        "synthetic-000042863",
+        "synthetic-000063946",
+        "synthetic-000078378",
+        "synthetic-000076846"
+      ]
+    },
+    {
+      "probe": "probe:41891",
+      "exact_search_ms": 66.50999997509643,
+      "indexed_search_ms": 61.36079999851063,
+      "exact_top_10": [
+        "synthetic-000041891",
+        "synthetic-000053367",
+        "synthetic-000093031",
+        "synthetic-000002161",
+        "synthetic-000073990",
+        "synthetic-000098416",
+        "synthetic-000018018",
+        "synthetic-000044251",
+        "synthetic-000054001",
+        "synthetic-000084811"
+      ],
+      "indexed_top_10": [
+        "synthetic-000041891",
+        "synthetic-000053367",
+        "synthetic-000093031",
+        "synthetic-000073990",
+        "synthetic-000018018",
+        "synthetic-000044251",
+        "synthetic-000084811",
+        "synthetic-000020667",
+        "synthetic-000048549",
+        "synthetic-000083716"
+      ]
+    },
+    {
+      "probe": "probe:74011",
+      "exact_search_ms": 76.76319999154657,
+      "indexed_search_ms": 65.37859997479245,
+      "exact_top_10": [
+        "synthetic-000074011",
+        "synthetic-000032651",
+        "synthetic-000090863",
+        "synthetic-000029325",
+        "synthetic-000094128",
+        "synthetic-000022115",
+        "synthetic-000006001",
+        "synthetic-000025975",
+        "synthetic-000038196",
+        "synthetic-000082352"
+      ],
+      "indexed_top_10": [
+        "synthetic-000074011",
+        "synthetic-000032651",
+        "synthetic-000090863",
+        "synthetic-000029325",
+        "synthetic-000094128",
+        "synthetic-000022115",
+        "synthetic-000006001",
+        "synthetic-000025975",
+        "synthetic-000038196",
+        "synthetic-000082352"
+      ]
+    },
+    {
+      "probe": "probe:91251",
+      "exact_search_ms": 67.82230001408607,
+      "indexed_search_ms": 62.979099981021136,
+      "exact_top_10": [
+        "synthetic-000091251",
+        "synthetic-000057065",
+        "synthetic-000025339",
+        "synthetic-000098326",
+        "synthetic-000076551",
+        "synthetic-000088891",
+        "synthetic-000038482",
+        "synthetic-000047650",
+        "synthetic-000099967",
+        "synthetic-000067813"
+      ],
+      "indexed_top_10": [
+        "synthetic-000091251",
+        "synthetic-000025339",
+        "synthetic-000098326",
+        "synthetic-000076551",
+        "synthetic-000088891",
+        "synthetic-000038482",
+        "synthetic-000047650",
+        "synthetic-000099967",
+        "synthetic-000067813",
+        "synthetic-000066963"
+      ]
+    },
+    {
+      "probe": "probe:24236",
+      "exact_search_ms": 59.68519998714328,
+      "indexed_search_ms": 57.55540000973269,
+      "exact_top_10": [
+        "synthetic-000024236",
+        "synthetic-000081630",
+        "synthetic-000011296",
+        "synthetic-000025017",
+        "synthetic-000020037",
+        "synthetic-000049724",
+        "synthetic-000081228",
+        "synthetic-000079505",
+        "synthetic-000080822",
+        "synthetic-000056590"
+      ],
+      "indexed_top_10": [
+        "synthetic-000024236",
+        "synthetic-000081630",
+        "synthetic-000011296",
+        "synthetic-000025017",
+        "synthetic-000049724",
+        "synthetic-000081228",
+        "synthetic-000080822",
+        "synthetic-000056590",
+        "synthetic-000026084",
+        "synthetic-000095579"
+      ]
+    },
+    {
+      "probe": "probe:43493",
+      "exact_search_ms": 65.45069999992847,
+      "indexed_search_ms": 57.327100017573684,
+      "exact_top_10": [
+        "synthetic-000043493",
+        "synthetic-000023663",
+        "synthetic-000002623",
+        "synthetic-000001941",
+        "synthetic-000003776",
+        "synthetic-000082671",
+        "synthetic-000051216",
+        "synthetic-000053322",
+        "synthetic-000012875",
+        "synthetic-000076116"
+      ],
+      "indexed_top_10": [
+        "synthetic-000043493",
+        "synthetic-000023663",
+        "synthetic-000002623",
+        "synthetic-000003776",
+        "synthetic-000051216",
+        "synthetic-000053322",
+        "synthetic-000012875",
+        "synthetic-000030381",
+        "synthetic-000018913",
+        "synthetic-000087093"
+      ]
+    },
+    {
+      "probe": "probe:96281",
+      "exact_search_ms": 67.25019996520132,
+      "indexed_search_ms": 87.43549999780953,
+      "exact_top_10": [
+        "synthetic-000096281",
+        "synthetic-000065294",
+        "synthetic-000036074",
+        "synthetic-000079817",
+        "synthetic-000096659",
+        "synthetic-000020172",
+        "synthetic-000028409",
+        "synthetic-000003237",
+        "synthetic-000014435",
+        "synthetic-000071125"
+      ],
+      "indexed_top_10": [
+        "synthetic-000096281",
+        "synthetic-000065294",
+        "synthetic-000079817",
+        "synthetic-000096659",
+        "synthetic-000020172",
+        "synthetic-000028409",
+        "synthetic-000003237",
+        "synthetic-000014435",
+        "synthetic-000071125",
+        "synthetic-000008943"
+      ]
+    },
+    {
+      "probe": "probe:66281",
+      "exact_search_ms": 63.837299996521324,
+      "indexed_search_ms": 57.55100003443658,
+      "exact_top_10": [
+        "synthetic-000066281",
+        "synthetic-000042986",
+        "synthetic-000050701",
+        "synthetic-000005813",
+        "synthetic-000028963",
+        "synthetic-000030124",
+        "synthetic-000045171",
+        "synthetic-000016723",
+        "synthetic-000079590",
+        "synthetic-000009883"
+      ],
+      "indexed_top_10": [
+        "synthetic-000066281",
+        "synthetic-000005813",
+        "synthetic-000028963",
+        "synthetic-000045171",
+        "synthetic-000016723",
+        "synthetic-000079590",
+        "synthetic-000009883",
+        "synthetic-000070031",
+        "synthetic-000051355",
+        "synthetic-000085301"
+      ]
+    },
+    {
+      "probe": "probe:12576",
+      "exact_search_ms": 68.78929998492822,
+      "indexed_search_ms": 53.58220002381131,
+      "exact_top_10": [
+        "synthetic-000012576",
+        "synthetic-000016864",
+        "synthetic-000091193",
+        "synthetic-000046632",
+        "synthetic-000000160",
+        "synthetic-000068635",
+        "synthetic-000050101",
+        "synthetic-000057117",
+        "synthetic-000069107",
+        "synthetic-000012369"
+      ],
+      "indexed_top_10": [
+        "synthetic-000012576",
+        "synthetic-000016864",
+        "synthetic-000068635",
+        "synthetic-000050101",
+        "synthetic-000069107",
+        "synthetic-000094182",
+        "synthetic-000053657",
+        "synthetic-000009204",
+        "synthetic-000092357",
+        "synthetic-000040918"
+      ]
+    },
+    {
+      "probe": "probe:92000",
+      "exact_search_ms": 66.07200001599267,
+      "indexed_search_ms": 55.05100003210828,
+      "exact_top_10": [
+        "synthetic-000092000",
+        "synthetic-000089643",
+        "synthetic-000080479",
+        "synthetic-000053099",
+        "synthetic-000036997",
+        "synthetic-000009950",
+        "synthetic-000089428",
+        "synthetic-000097173",
+        "synthetic-000063319",
+        "synthetic-000039703"
+      ],
+      "indexed_top_10": [
+        "synthetic-000092000",
+        "synthetic-000089643",
+        "synthetic-000080479",
+        "synthetic-000036997",
+        "synthetic-000009950",
+        "synthetic-000089428",
+        "synthetic-000097173",
+        "synthetic-000063319",
+        "synthetic-000039703",
+        "synthetic-000069750"
+      ]
+    },
+    {
+      "probe": "probe:79436",
+      "exact_search_ms": 70.09609998203814,
+      "indexed_search_ms": 48.909900011494756,
+      "exact_top_10": [
+        "synthetic-000079436",
+        "synthetic-000095218",
+        "synthetic-000019870",
+        "synthetic-000014132",
+        "synthetic-000064613",
+        "synthetic-000092584",
+        "synthetic-000092351",
+        "synthetic-000090471",
+        "synthetic-000026731",
+        "synthetic-000098389"
+      ],
+      "indexed_top_10": [
+        "synthetic-000079436",
+        "synthetic-000019870",
+        "synthetic-000064613",
+        "synthetic-000092584",
+        "synthetic-000092351",
+        "synthetic-000090471",
+        "synthetic-000026731",
+        "synthetic-000098389",
+        "synthetic-000049408",
+        "synthetic-000017850"
+      ]
+    },
+    {
+      "probe": "probe:57476",
+      "exact_search_ms": 68.37330001872033,
+      "indexed_search_ms": 80.03650000318885,
+      "exact_top_10": [
+        "synthetic-000057476",
+        "synthetic-000035409",
+        "synthetic-000045358",
+        "synthetic-000066260",
+        "synthetic-000057723",
+        "synthetic-000071449",
+        "synthetic-000045810",
+        "synthetic-000074057",
+        "synthetic-000072419",
+        "synthetic-000060358"
+      ],
+      "indexed_top_10": [
+        "synthetic-000057476",
+        "synthetic-000035409",
+        "synthetic-000045358",
+        "synthetic-000066260",
+        "synthetic-000071449",
+        "synthetic-000045810",
+        "synthetic-000074057",
+        "synthetic-000072419",
+        "synthetic-000060358",
+        "synthetic-000057090"
+      ]
+    },
+    {
+      "probe": "probe:85924",
+      "exact_search_ms": 168.6716999975033,
+      "indexed_search_ms": 58.701800007838756,
+      "exact_top_10": [
+        "synthetic-000085924",
+        "synthetic-000096871",
+        "synthetic-000083036",
+        "synthetic-000018234",
+        "synthetic-000036710",
+        "synthetic-000051866",
+        "synthetic-000052341",
+        "synthetic-000024480",
+        "synthetic-000082365",
+        "synthetic-000099514"
+      ],
+      "indexed_top_10": [
+        "synthetic-000085924",
+        "synthetic-000083036",
+        "synthetic-000018234",
+        "synthetic-000051866",
+        "synthetic-000052341",
+        "synthetic-000024480",
+        "synthetic-000082365",
+        "synthetic-000099514",
+        "synthetic-000032435",
+        "synthetic-000091632"
+      ]
+    },
+    {
+      "probe": "probe:14209",
+      "exact_search_ms": 70.41470002150163,
+      "indexed_search_ms": 52.977200015448034,
+      "exact_top_10": [
+        "synthetic-000014209",
+        "synthetic-000043534",
+        "synthetic-000022889",
+        "synthetic-000046625",
+        "synthetic-000064791",
+        "synthetic-000025254",
+        "synthetic-000057169",
+        "synthetic-000077527",
+        "synthetic-000034787",
+        "synthetic-000069612"
+      ],
+      "indexed_top_10": [
+        "synthetic-000014209",
+        "synthetic-000043534",
+        "synthetic-000022889",
+        "synthetic-000046625",
+        "synthetic-000064791",
+        "synthetic-000025254",
+        "synthetic-000077527",
+        "synthetic-000034787",
+        "synthetic-000069612",
+        "synthetic-000052019"
+      ]
+    },
+    {
+      "probe": "probe:21703",
+      "exact_search_ms": 66.700299968943,
+      "indexed_search_ms": 85.97060001920909,
+      "exact_top_10": [
+        "synthetic-000021703",
+        "synthetic-000010874",
+        "synthetic-000094401",
+        "synthetic-000081069",
+        "synthetic-000086225",
+        "synthetic-000029996",
+        "synthetic-000014287",
+        "synthetic-000093824",
+        "synthetic-000031160",
+        "synthetic-000081794"
+      ],
+      "indexed_top_10": [
+        "synthetic-000021703",
+        "synthetic-000010874",
+        "synthetic-000094401",
+        "synthetic-000081069",
+        "synthetic-000086225",
+        "synthetic-000029996",
+        "synthetic-000014287",
+        "synthetic-000031160",
+        "synthetic-000081794",
+        "synthetic-000049363"
+      ]
+    },
+    {
+      "probe": "probe:24087",
+      "exact_search_ms": 65.52379997447133,
+      "indexed_search_ms": 64.58629999542609,
+      "exact_top_10": [
+        "synthetic-000024087",
+        "synthetic-000055733",
+        "synthetic-000045605",
+        "synthetic-000087300",
+        "synthetic-000053847",
+        "synthetic-000014075",
+        "synthetic-000081519",
+        "synthetic-000006368",
+        "synthetic-000096067",
+        "synthetic-000087179"
+      ],
+      "indexed_top_10": [
+        "synthetic-000024087",
+        "synthetic-000055733",
+        "synthetic-000045605",
+        "synthetic-000087300",
+        "synthetic-000006368",
+        "synthetic-000087179",
+        "synthetic-000038709",
+        "synthetic-000083392",
+        "synthetic-000068887",
+        "synthetic-000032300"
+      ]
+    },
+    {
+      "probe": "probe:74427",
+      "exact_search_ms": 64.70509996870533,
+      "indexed_search_ms": 76.88060001237318,
+      "exact_top_10": [
+        "synthetic-000074427",
+        "synthetic-000023404",
+        "synthetic-000085207",
+        "synthetic-000083250",
+        "synthetic-000050490",
+        "synthetic-000053613",
+        "synthetic-000081213",
+        "synthetic-000089864",
+        "synthetic-000073790",
+        "synthetic-000007171"
+      ],
+      "indexed_top_10": [
+        "synthetic-000074427",
+        "synthetic-000053613",
+        "synthetic-000073790",
+        "synthetic-000082285",
+        "synthetic-000021460",
+        "synthetic-000096947",
+        "synthetic-000020921",
+        "synthetic-000037778",
+        "synthetic-000038979",
+        "synthetic-000017703"
+      ]
+    },
+    {
+      "probe": "probe:46185",
+      "exact_search_ms": 60.28009997680783,
+      "indexed_search_ms": 75.1330999773927,
+      "exact_top_10": [
+        "synthetic-000046185",
+        "synthetic-000048452",
+        "synthetic-000084085",
+        "synthetic-000044351",
+        "synthetic-000061791",
+        "synthetic-000015617",
+        "synthetic-000053341",
+        "synthetic-000078847",
+        "synthetic-000099548",
+        "synthetic-000077359"
+      ],
+      "indexed_top_10": [
+        "synthetic-000046185",
+        "synthetic-000048452",
+        "synthetic-000084085",
+        "synthetic-000044351",
+        "synthetic-000061791",
+        "synthetic-000015617",
+        "synthetic-000053341",
+        "synthetic-000099548",
+        "synthetic-000077359",
+        "synthetic-000007589"
+      ]
+    },
+    {
+      "probe": "probe:96045",
+      "exact_search_ms": 59.34219999471679,
+      "indexed_search_ms": 64.0321999671869,
+      "exact_top_10": [
+        "synthetic-000096045",
+        "synthetic-000011004",
+        "synthetic-000065386",
+        "synthetic-000076626",
+        "synthetic-000076928",
+        "synthetic-000027920",
+        "synthetic-000093081",
+        "synthetic-000020787",
+        "synthetic-000038735",
+        "synthetic-000002188"
+      ],
+      "indexed_top_10": [
+        "synthetic-000096045",
+        "synthetic-000076928",
+        "synthetic-000027920",
+        "synthetic-000093081",
+        "synthetic-000002188",
+        "synthetic-000030267",
+        "synthetic-000041287",
+        "synthetic-000085878",
+        "synthetic-000070344",
+        "synthetic-000035248"
+      ]
+    }
+  ]
+}

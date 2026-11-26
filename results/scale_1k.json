@@ -1,0 +1,905 @@
+{
+  "status": "COMPLETE",
+  "rows": 1000,
+  "queries": 30,
+  "seed": 20261124,
+  "dimension": 32,
+  "index": "IVF_FLAT",
+  "partitions": 16,
+  "batch_size": 1000,
+  "versions": {
+    "lancedb": "0.41.0",
+    "strands_agents": "1.65.0",
+    "numpy": "2.5.5"
+  },
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "logical_cpus": 12
+  },
+  "runner_sha256": "3a635cb40498f70d7c9fa12c8d86a26a68760fc98a17cdb420206eb79357be41",
+  "bulk_seed_seconds": 0.0343659000354819,
+  "bulk_seed_rows_per_second": 29098.61225713646,
+  "index_build_seconds": 0.14106199995148927,
+  "bytes_on_disk": 315295,
+  "exact_p50_search_ms": 16.65095001226291,
+  "exact_p95_search_ms": 25.890930014429607,
+  "indexed_p50_search_ms": 18.9416499924846,
+  "indexed_p95_search_ms": 25.696480006445185,
+  "indexed_recall_at_10": 0.9533333333333334,
+  "indexed_top_1_agreement": 1.0,
+  "per_query": [
+    {
+      "probe": "probe:150",
+      "exact_search_ms": 24.48369999183342,
+      "indexed_search_ms": 27.652000018861145,
+      "exact_top_10": [
+        "synthetic-000000150",
+        "synthetic-000000905",
+        "synthetic-000000857",
+        "synthetic-000000752",
+        "synthetic-000000460",
+        "synthetic-000000818",
+        "synthetic-000000948",
+        "synthetic-000000294",
+        "synthetic-000000324",
+        "synthetic-000000491"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000150",
+        "synthetic-000000905",
+        "synthetic-000000857",
+        "synthetic-000000752",
+        "synthetic-000000460",
+        "synthetic-000000818",
+        "synthetic-000000294",
+        "synthetic-000000324",
+        "synthetic-000000491",
+        "synthetic-000000839"
+      ]
+    },
+    {
+      "probe": "probe:336",
+      "exact_search_ms": 23.112200025934726,
+      "indexed_search_ms": 20.472400006838143,
+      "exact_top_10": [
+        "synthetic-000000336",
+        "synthetic-000000138",
+        "synthetic-000000191",
+        "synthetic-000000475",
+        "synthetic-000000217",
+        "synthetic-000000985",
+        "synthetic-000000078",
+        "synthetic-000000981",
+        "synthetic-000000542",
+        "synthetic-000000261"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000336",
+        "synthetic-000000138",
+        "synthetic-000000191",
+        "synthetic-000000475",
+        "synthetic-000000217",
+        "synthetic-000000985",
+        "synthetic-000000078",
+        "synthetic-000000542",
+        "synthetic-000000261",
+        "synthetic-000000064"
+      ]
+    },
+    {
+      "probe": "probe:657",
+      "exact_search_ms": 17.64009997714311,
+      "indexed_search_ms": 20.565499959047884,
+      "exact_top_10": [
+        "synthetic-000000657",
+        "synthetic-000000993",
+        "synthetic-000000924",
+        "synthetic-000000410",
+        "synthetic-000000285",
+        "synthetic-000000527",
+        "synthetic-000000305",
+        "synthetic-000000598",
+        "synthetic-000000140",
+        "synthetic-000000029"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000657",
+        "synthetic-000000993",
+        "synthetic-000000924",
+        "synthetic-000000410",
+        "synthetic-000000285",
+        "synthetic-000000527",
+        "synthetic-000000305",
+        "synthetic-000000598",
+        "synthetic-000000140",
+        "synthetic-000000029"
+      ]
+    },
+    {
+      "probe": "probe:371",
+      "exact_search_ms": 14.056399988476187,
+      "indexed_search_ms": 16.77629997720942,
+      "exact_top_10": [
+        "synthetic-000000371",
+        "synthetic-000000295",
+        "synthetic-000000292",
+        "synthetic-000000734",
+        "synthetic-000000811",
+        "synthetic-000000240",
+        "synthetic-000000765",
+        "synthetic-000000774",
+        "synthetic-000000346",
+        "synthetic-000000244"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000371",
+        "synthetic-000000295",
+        "synthetic-000000292",
+        "synthetic-000000734",
+        "synthetic-000000811",
+        "synthetic-000000240",
+        "synthetic-000000765",
+        "synthetic-000000774",
+        "synthetic-000000346",
+        "synthetic-000000244"
+      ]
+    },
+    {
+      "probe": "probe:309",
+      "exact_search_ms": 15.30359999742359,
+      "indexed_search_ms": 15.722099982667714,
+      "exact_top_10": [
+        "synthetic-000000309",
+        "synthetic-000000178",
+        "synthetic-000000447",
+        "synthetic-000000807",
+        "synthetic-000000776",
+        "synthetic-000000418",
+        "synthetic-000000485",
+        "synthetic-000000190",
+        "synthetic-000000505",
+        "synthetic-000000910"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000309",
+        "synthetic-000000178",
+        "synthetic-000000447",
+        "synthetic-000000807",
+        "synthetic-000000776",
+        "synthetic-000000418",
+        "synthetic-000000485",
+        "synthetic-000000190",
+        "synthetic-000000505",
+        "synthetic-000000910"
+      ]
+    },
+    {
+      "probe": "probe:847",
+      "exact_search_ms": 17.13660004315898,
+      "indexed_search_ms": 15.535599959548563,
+      "exact_top_10": [
+        "synthetic-000000847",
+        "synthetic-000000674",
+        "synthetic-000000383",
+        "synthetic-000000434",
+        "synthetic-000000764",
+        "synthetic-000000076",
+        "synthetic-000000123",
+        "synthetic-000000069",
+        "synthetic-000000744",
+        "synthetic-000000698"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000847",
+        "synthetic-000000674",
+        "synthetic-000000383",
+        "synthetic-000000434",
+        "synthetic-000000764",
+        "synthetic-000000076",
+        "synthetic-000000123",
+        "synthetic-000000069",
+        "synthetic-000000744",
+        "synthetic-000000698"
+      ]
+    },
+    {
+      "probe": "probe:522",
+      "exact_search_ms": 17.34050002414733,
+      "indexed_search_ms": 19.369699992239475,
+      "exact_top_10": [
+        "synthetic-000000522",
+        "synthetic-000000329",
+        "synthetic-000000562",
+        "synthetic-000000620",
+        "synthetic-000000608",
+        "synthetic-000000438",
+        "synthetic-000000088",
+        "synthetic-000000622",
+        "synthetic-000000470",
+        "synthetic-000000568"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000522",
+        "synthetic-000000329",
+        "synthetic-000000562",
+        "synthetic-000000620",
+        "synthetic-000000608",
+        "synthetic-000000088",
+        "synthetic-000000622",
+        "synthetic-000000470",
+        "synthetic-000000568",
+        "synthetic-000000070"
+      ]
+    },
+    {
+      "probe": "probe:139",
+      "exact_search_ms": 15.281100000720471,
+      "indexed_search_ms": 17.72160001564771,
+      "exact_top_10": [
+        "synthetic-000000139",
+        "synthetic-000000627",
+        "synthetic-000000820",
+        "synthetic-000000617",
+        "synthetic-000000130",
+        "synthetic-000000412",
+        "synthetic-000000735",
+        "synthetic-000000942",
+        "synthetic-000000786",
+        "synthetic-000000324"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000139",
+        "synthetic-000000627",
+        "synthetic-000000820",
+        "synthetic-000000617",
+        "synthetic-000000130",
+        "synthetic-000000412",
+        "synthetic-000000735",
+        "synthetic-000000942",
+        "synthetic-000000786",
+        "synthetic-000000324"
+      ]
+    },
+    {
+      "probe": "probe:689",
+      "exact_search_ms": 15.359200013335794,
+      "indexed_search_ms": 18.559299991466105,
+      "exact_top_10": [
+        "synthetic-000000689",
+        "synthetic-000000838",
+        "synthetic-000000277",
+        "synthetic-000000816",
+        "synthetic-000000760",
+        "synthetic-000000857",
+        "synthetic-000000071",
+        "synthetic-000000720",
+        "synthetic-000000573",
+        "synthetic-000000135"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000689",
+        "synthetic-000000838",
+        "synthetic-000000277",
+        "synthetic-000000816",
+        "synthetic-000000760",
+        "synthetic-000000857",
+        "synthetic-000000071",
+        "synthetic-000000720",
+        "synthetic-000000573",
+        "synthetic-000000135"
+      ]
+    },
+    {
+      "probe": "probe:20",
+      "exact_search_ms": 15.464700001757592,
+      "indexed_search_ms": 17.052399984095246,
+      "exact_top_10": [
+        "synthetic-000000020",
+        "synthetic-000000746",
+        "synthetic-000000116",
+        "synthetic-000000422",
+        "synthetic-000000593",
+        "synthetic-000000662",
+        "synthetic-000000940",
+        "synthetic-000000841",
+        "synthetic-000000865",
+        "synthetic-000000787"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000020",
+        "synthetic-000000746",
+        "synthetic-000000116",
+        "synthetic-000000422",
+        "synthetic-000000593",
+        "synthetic-000000662",
+        "synthetic-000000940",
+        "synthetic-000000841",
+        "synthetic-000000865",
+        "synthetic-000000783"
+      ]
+    },
+    {
+      "probe": "probe:623",
+      "exact_search_ms": 16.60450000781566,
+      "indexed_search_ms": 18.354500003624707,
+      "exact_top_10": [
+        "synthetic-000000623",
+        "synthetic-000000709",
+        "synthetic-000000976",
+        "synthetic-000000070",
+        "synthetic-000000427",
+        "synthetic-000000179",
+        "synthetic-000000785",
+        "synthetic-000000807",
+        "synthetic-000000408",
+        "synthetic-000000523"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000623",
+        "synthetic-000000709",
+        "synthetic-000000976",
+        "synthetic-000000070",
+        "synthetic-000000427",
+        "synthetic-000000179",
+        "synthetic-000000785",
+        "synthetic-000000807",
+        "synthetic-000000408",
+        "synthetic-000000523"
+      ]
+    },
+    {
+      "probe": "probe:174",
+      "exact_search_ms": 17.584299959708005,
+      "indexed_search_ms": 15.526500006671995,
+      "exact_top_10": [
+        "synthetic-000000174",
+        "synthetic-000000312",
+        "synthetic-000000329",
+        "synthetic-000000331",
+        "synthetic-000000364",
+        "synthetic-000000880",
+        "synthetic-000000207",
+        "synthetic-000000269",
+        "synthetic-000000525",
+        "synthetic-000000264"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000174",
+        "synthetic-000000312",
+        "synthetic-000000329",
+        "synthetic-000000331",
+        "synthetic-000000364",
+        "synthetic-000000880",
+        "synthetic-000000269",
+        "synthetic-000000525",
+        "synthetic-000000264",
+        "synthetic-000000716"
+      ]
+    },
+    {
+      "probe": "probe:413",
+      "exact_search_ms": 20.565700018778443,
+      "indexed_search_ms": 17.13459996972233,
+      "exact_top_10": [
+        "synthetic-000000413",
+        "synthetic-000000306",
+        "synthetic-000000822",
+        "synthetic-000000054",
+        "synthetic-000000849",
+        "synthetic-000000550",
+        "synthetic-000000107",
+        "synthetic-000000447",
+        "synthetic-000000790",
+        "synthetic-000000146"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000413",
+        "synthetic-000000306",
+        "synthetic-000000822",
+        "synthetic-000000054",
+        "synthetic-000000849",
+        "synthetic-000000550",
+        "synthetic-000000107",
+        "synthetic-000000447",
+        "synthetic-000000790",
+        "synthetic-000000146"
+      ]
+    },
+    {
+      "probe": "probe:987",
+      "exact_search_ms": 21.467700018547475,
+      "indexed_search_ms": 16.33010001387447,
+      "exact_top_10": [
+        "synthetic-000000987",
+        "synthetic-000000124",
+        "synthetic-000000474",
+        "synthetic-000000332",
+        "synthetic-000000341",
+        "synthetic-000000726",
+        "synthetic-000000562",
+        "synthetic-000000687",
+        "synthetic-000000346",
+        "synthetic-000000325"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000987",
+        "synthetic-000000124",
+        "synthetic-000000474",
+        "synthetic-000000332",
+        "synthetic-000000341",
+        "synthetic-000000726",
+        "synthetic-000000562",
+        "synthetic-000000687",
+        "synthetic-000000346",
+        "synthetic-000000325"
+      ]
+    },
+    {
+      "probe": "probe:905",
+      "exact_search_ms": 20.538699987810105,
+      "indexed_search_ms": 18.530800007283688,
+      "exact_top_10": [
+        "synthetic-000000905",
+        "synthetic-000000787",
+        "synthetic-000000307",
+        "synthetic-000000150",
+        "synthetic-000000857",
+        "synthetic-000000837",
+        "synthetic-000000752",
+        "synthetic-000000566",
+        "synthetic-000000018",
+        "synthetic-000000948"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000905",
+        "synthetic-000000787",
+        "synthetic-000000307",
+        "synthetic-000000857",
+        "synthetic-000000752",
+        "synthetic-000000566",
+        "synthetic-000000018",
+        "synthetic-000000341",
+        "synthetic-000000847",
+        "synthetic-000000793"
+      ]
+    },
+    {
+      "probe": "probe:238",
+      "exact_search_ms": 13.68400000501424,
+      "indexed_search_ms": 18.237399985082448,
+      "exact_top_10": [
+        "synthetic-000000238",
+        "synthetic-000000397",
+        "synthetic-000000479",
+        "synthetic-000000341",
+        "synthetic-000000123",
+        "synthetic-000000276",
+        "synthetic-000000447",
+        "synthetic-000000301",
+        "synthetic-000000642",
+        "synthetic-000000364"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000238",
+        "synthetic-000000397",
+        "synthetic-000000479",
+        "synthetic-000000341",
+        "synthetic-000000123",
+        "synthetic-000000276",
+        "synthetic-000000447",
+        "synthetic-000000301",
+        "synthetic-000000642",
+        "synthetic-000000364"
+      ]
+    },
+    {
+      "probe": "probe:431",
+      "exact_search_ms": 16.535300004761666,
+      "indexed_search_ms": 19.781499984674156,
+      "exact_top_10": [
+        "synthetic-000000431",
+        "synthetic-000000841",
+        "synthetic-000000261",
+        "synthetic-000000640",
+        "synthetic-000000949",
+        "synthetic-000000864",
+        "synthetic-000000829",
+        "synthetic-000000004",
+        "synthetic-000000417",
+        "synthetic-000000766"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000431",
+        "synthetic-000000841",
+        "synthetic-000000261",
+        "synthetic-000000640",
+        "synthetic-000000949",
+        "synthetic-000000864",
+        "synthetic-000000829",
+        "synthetic-000000004",
+        "synthetic-000000417",
+        "synthetic-000000766"
+      ]
+    },
+    {
+      "probe": "probe:938",
+      "exact_search_ms": 14.76130000082776,
+      "indexed_search_ms": 18.86969996849075,
+      "exact_top_10": [
+        "synthetic-000000938",
+        "synthetic-000000265",
+        "synthetic-000000110",
+        "synthetic-000000574",
+        "synthetic-000000975",
+        "synthetic-000000004",
+        "synthetic-000000398",
+        "synthetic-000000345",
+        "synthetic-000000098",
+        "synthetic-000000815"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000938",
+        "synthetic-000000265",
+        "synthetic-000000110",
+        "synthetic-000000574",
+        "synthetic-000000975",
+        "synthetic-000000004",
+        "synthetic-000000398",
+        "synthetic-000000345",
+        "synthetic-000000098",
+        "synthetic-000000815"
+      ]
+    },
+    {
+      "probe": "probe:649",
+      "exact_search_ms": 15.827200026251376,
+      "indexed_search_ms": 17.85060000838712,
+      "exact_top_10": [
+        "synthetic-000000649",
+        "synthetic-000000243",
+        "synthetic-000000537",
+        "synthetic-000000502",
+        "synthetic-000000149",
+        "synthetic-000000524",
+        "synthetic-000000278",
+        "synthetic-000000554",
+        "synthetic-000000024",
+        "synthetic-000000873"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000649",
+        "synthetic-000000243",
+        "synthetic-000000537",
+        "synthetic-000000502",
+        "synthetic-000000149",
+        "synthetic-000000524",
+        "synthetic-000000278",
+        "synthetic-000000554",
+        "synthetic-000000024",
+        "synthetic-000000873"
+      ]
+    },
+    {
+      "probe": "probe:122",
+      "exact_search_ms": 15.257199993357062,
+      "indexed_search_ms": 16.75680000334978,
+      "exact_top_10": [
+        "synthetic-000000122",
+        "synthetic-000000453",
+        "synthetic-000000516",
+        "synthetic-000000653",
+        "synthetic-000000472",
+        "synthetic-000000434",
+        "synthetic-000000386",
+        "synthetic-000000643",
+        "synthetic-000000463",
+        "synthetic-000000981"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000122",
+        "synthetic-000000453",
+        "synthetic-000000516",
+        "synthetic-000000653",
+        "synthetic-000000472",
+        "synthetic-000000434",
+        "synthetic-000000643",
+        "synthetic-000000463",
+        "synthetic-000000981",
+        "synthetic-000000966"
+      ]
+    },
+    {
+      "probe": "probe:919",
+      "exact_search_ms": 15.737999987322837,
+      "indexed_search_ms": 19.439099996816367,
+      "exact_top_10": [
+        "synthetic-000000919",
+        "synthetic-000000059",
+        "synthetic-000000685",
+        "synthetic-000000942",
+        "synthetic-000000821",
+        "synthetic-000000014",
+        "synthetic-000000436",
+        "synthetic-000000947",
+        "synthetic-000000510",
+        "synthetic-000000911"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000919",
+        "synthetic-000000059",
+        "synthetic-000000685",
+        "synthetic-000000942",
+        "synthetic-000000821",
+        "synthetic-000000014",
+        "synthetic-000000436",
+        "synthetic-000000947",
+        "synthetic-000000510",
+        "synthetic-000000911"
+      ]
+    },
+    {
+      "probe": "probe:781",
+      "exact_search_ms": 14.17589996708557,
+      "indexed_search_ms": 19.521400041412562,
+      "exact_top_10": [
+        "synthetic-000000781",
+        "synthetic-000000551",
+        "synthetic-000000460",
+        "synthetic-000000754",
+        "synthetic-000000876",
+        "synthetic-000000813",
+        "synthetic-000000098",
+        "synthetic-000000641",
+        "synthetic-000000060",
+        "synthetic-000000599"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000781",
+        "synthetic-000000551",
+        "synthetic-000000754",
+        "synthetic-000000876",
+        "synthetic-000000813",
+        "synthetic-000000098",
+        "synthetic-000000641",
+        "synthetic-000000060",
+        "synthetic-000000599",
+        "synthetic-000000004"
+      ]
+    },
+    {
+      "probe": "probe:563",
+      "exact_search_ms": 78.62340001156554,
+      "indexed_search_ms": 44.403000036254525,
+      "exact_top_10": [
+        "synthetic-000000563",
+        "synthetic-000000006",
+        "synthetic-000000831",
+        "synthetic-000000429",
+        "synthetic-000000849",
+        "synthetic-000000005",
+        "synthetic-000000711",
+        "synthetic-000000880",
+        "synthetic-000000583",
+        "synthetic-000000614"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000563",
+        "synthetic-000000006",
+        "synthetic-000000831",
+        "synthetic-000000429",
+        "synthetic-000000849",
+        "synthetic-000000005",
+        "synthetic-000000711",
+        "synthetic-000000880",
+        "synthetic-000000583",
+        "synthetic-000000614"
+      ]
+    },
+    {
+      "probe": "probe:854",
+      "exact_search_ms": 27.04230003291741,
+      "indexed_search_ms": 23.306399991270155,
+      "exact_top_10": [
+        "synthetic-000000854",
+        "synthetic-000000031",
+        "synthetic-000000927",
+        "synthetic-000000268",
+        "synthetic-000000808",
+        "synthetic-000000732",
+        "synthetic-000000635",
+        "synthetic-000000486",
+        "synthetic-000000944",
+        "synthetic-000000712"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000854",
+        "synthetic-000000031",
+        "synthetic-000000927",
+        "synthetic-000000268",
+        "synthetic-000000808",
+        "synthetic-000000732",
+        "synthetic-000000635",
+        "synthetic-000000486",
+        "synthetic-000000944",
+        "synthetic-000000712"
+      ]
+    },
+    {
+      "probe": "probe:138",
+      "exact_search_ms": 21.86679997248575,
+      "indexed_search_ms": 20.472100004553795,
+      "exact_top_10": [
+        "synthetic-000000138",
+        "synthetic-000000512",
+        "synthetic-000000422",
+        "synthetic-000000336",
+        "synthetic-000000141",
+        "synthetic-000000230",
+        "synthetic-000000489",
+        "synthetic-000000317",
+        "synthetic-000000243",
+        "synthetic-000000315"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000138",
+        "synthetic-000000512",
+        "synthetic-000000422",
+        "synthetic-000000336",
+        "synthetic-000000141",
+        "synthetic-000000230",
+        "synthetic-000000489",
+        "synthetic-000000317",
+        "synthetic-000000243",
+        "synthetic-000000315"
+      ]
+    },
+    {
+      "probe": "probe:210",
+      "exact_search_ms": 22.255800024140626,
+      "indexed_search_ms": 21.97400003205985,
+      "exact_top_10": [
+        "synthetic-000000210",
+        "synthetic-000000891",
+        "synthetic-000000573",
+        "synthetic-000000907",
+        "synthetic-000000508",
+        "synthetic-000000725",
+        "synthetic-000000748",
+        "synthetic-000000335",
+        "synthetic-000000835",
+        "synthetic-000000197"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000210",
+        "synthetic-000000891",
+        "synthetic-000000573",
+        "synthetic-000000907",
+        "synthetic-000000508",
+        "synthetic-000000725",
+        "synthetic-000000748",
+        "synthetic-000000335",
+        "synthetic-000000835",
+        "synthetic-000000197"
+      ]
+    },
+    {
+      "probe": "probe:239",
+      "exact_search_ms": 18.272000015713274,
+      "indexed_search_ms": 19.266000017523766,
+      "exact_top_10": [
+        "synthetic-000000239",
+        "synthetic-000000386",
+        "synthetic-000000232",
+        "synthetic-000000705",
+        "synthetic-000000201",
+        "synthetic-000000136",
+        "synthetic-000000375",
+        "synthetic-000000406",
+        "synthetic-000000685",
+        "synthetic-000000570"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000239",
+        "synthetic-000000386",
+        "synthetic-000000232",
+        "synthetic-000000705",
+        "synthetic-000000201",
+        "synthetic-000000136",
+        "synthetic-000000406",
+        "synthetic-000000685",
+        "synthetic-000000570",
+        "synthetic-000000208"
+      ]
+    },
+    {
+      "probe": "probe:731",
+      "exact_search_ms": 15.189700003247708,
+      "indexed_search_ms": 21.280799992382526,
+      "exact_top_10": [
+        "synthetic-000000731",
+        "synthetic-000000993",
+        "synthetic-000000058",
+        "synthetic-000000161",
+        "synthetic-000000866",
+        "synthetic-000000640",
+        "synthetic-000000257",
+        "synthetic-000000291",
+        "synthetic-000000737",
+        "synthetic-000000914"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000731",
+        "synthetic-000000993",
+        "synthetic-000000161",
+        "synthetic-000000866",
+        "synthetic-000000640",
+        "synthetic-000000257",
+        "synthetic-000000291",
+        "synthetic-000000737",
+        "synthetic-000000326",
+        "synthetic-000000312"
+      ]
+    },
+    {
+      "probe": "probe:459",
+      "exact_search_ms": 14.197500015143305,
+      "indexed_search_ms": 21.61230001365766,
+      "exact_top_10": [
+        "synthetic-000000459",
+        "synthetic-000000996",
+        "synthetic-000000102",
+        "synthetic-000000505",
+        "synthetic-000000083",
+        "synthetic-000000250",
+        "synthetic-000000170",
+        "synthetic-000000720",
+        "synthetic-000000564",
+        "synthetic-000000630"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000459",
+        "synthetic-000000996",
+        "synthetic-000000102",
+        "synthetic-000000505",
+        "synthetic-000000083",
+        "synthetic-000000250",
+        "synthetic-000000170",
+        "synthetic-000000720",
+        "synthetic-000000564",
+        "synthetic-000000630"
+      ]
+    },
+    {
+      "probe": "probe:933",
+      "exact_search_ms": 16.697400016710162,
+      "indexed_search_ms": 19.01360001647845,
+      "exact_top_10": [
+        "synthetic-000000933",
+        "synthetic-000000825",
+        "synthetic-000000299",
+        "synthetic-000000686",
+        "synthetic-000000608",
+        "synthetic-000000057",
+        "synthetic-000000454",
+        "synthetic-000000203",
+        "synthetic-000000409",
+        "synthetic-000000625"
+      ],
+      "indexed_top_10": [
+        "synthetic-000000933",
+        "synthetic-000000825",
+        "synthetic-000000299",
+        "synthetic-000000686",
+        "synthetic-000000608",
+        "synthetic-000000057",
+        "synthetic-000000454",
+        "synthetic-000000203",
+        "synthetic-000000625",
+        "synthetic-000000990"
+      ]
+    }
+  ]
+}

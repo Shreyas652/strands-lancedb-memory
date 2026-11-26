@@ -1,0 +1,13 @@
+{
+  "phase": "frozen_test_paired_significance",
+  "frozen_answers_sha256": "c111eac3f932551436c8be38a5995653ccd6f9244d2be3d7c3faaa431c5fd370",
+  "question_count": 400,
+  "fts_only_correct": 36,
+  "file_only_correct": 21,
+  "both_correct": 165,
+  "neither_correct": 178,
+  "exact_mcnemar_two_sided_p": 0.0627366803558285,
+  "paired_accuracy_difference": 0.0375,
+  "paired_accuracy_difference_points": 3.75,
+  "runner_sha256": "f53613241206de5acdae0e1c69b2f410e1f45e7a476163ffb195f6d433576b83"
+}

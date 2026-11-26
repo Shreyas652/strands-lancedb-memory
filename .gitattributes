@@ -1,0 +1,5 @@
+# Benchmark reports contain SHA-256 fingerprints of source and JSON bytes.
+# Keep those files identical on Windows, Linux, and macOS checkouts.
+*.py text eol=lf
+*.json text eol=lf
+*.sh text eol=lf

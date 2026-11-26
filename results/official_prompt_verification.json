@@ -1,0 +1,14 @@
+{
+  "source_commit": "9e0b455f4ef0e2ab8f2e582289761153549043fc",
+  "source_sha256": "5085eb9ae08b91c6c4f97c6bea9b8c2d6e55f9ec72c27734cafa0a04f00a430a",
+  "prompt_sha256_by_type": {
+    "single-session-user": "58b90892016213b820e1bdf8291b176b6545fc6889e2704abf6084385f1a4989",
+    "single-session-assistant": "58b90892016213b820e1bdf8291b176b6545fc6889e2704abf6084385f1a4989",
+    "multi-session": "58b90892016213b820e1bdf8291b176b6545fc6889e2704abf6084385f1a4989",
+    "temporal-reasoning": "2c625cf4c085a1145ec53947d61e499957196a60e4ea19c79145dfeb18b3a08f",
+    "knowledge-update": "4bbc277a1af3172065f97c159a37a13162239ab0eb96048744987d1a83e51419",
+    "single-session-preference": "c40943db862aeafcbf488e0c46cc13ca29c9e432a09466580cab5c2d7e08f825"
+  },
+  "abstention_prompt_sha256": "c24e0d3dbb66aa3b6c10066ffab81156fad02fd22585040759d191bec19a663e",
+  "all_match": true
+}

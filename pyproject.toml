@@ -4,6 +4,16 @@ version = "0.1.0"
 description = "Embedded, tenant-scoped LanceDB memory store for Strands Agents"
 readme = "README.md"
 requires-python = ">=3.11, <3.14"
+license = "Apache-2.0"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "licenses/LongMemEval-MIT.txt"]
+authors = [{name = "Shreyas Gosavi"}]
+keywords = ["strands-agents", "lancedb", "memory", "agents"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
 dependencies = [
     "filelock>=3.20,<4",
     "lancedb==0.41.0",
@@ -11,11 +21,22 @@ dependencies = [
     "strands-agents==1.65.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/Shreyas652/strands-lancedb-memory"
+Repository = "https://github.com/Shreyas652/strands-lancedb-memory"
+Issues = "https://github.com/Shreyas652/strands-lancedb-memory/issues"
+
 [build-system]
 requires = ["uv_build>=0.11.21,<0.12.0"]
 build-backend = "uv_build"
 
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
 [dependency-groups]
+benchmark = [
+    "fastembed==0.9.1",
+]
 dev = [
     "hypothesis>=6.170.17",
     "mypy>=2.4.1",
