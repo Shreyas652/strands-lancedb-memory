@@ -37,7 +37,11 @@ The offline store and Agent integration tests cover `strands-agents>=1.65,<1.68`
 
 ## Local quickstart
 
-After publication, install version 0.1.0 with `pip install strands-lancedb-memory==0.1.0`.
+Install from [PyPI](https://pypi.org/project/strands-lancedb-memory/):
+
+```bash
+pip install strands-lancedb-memory
+```
 
 ```python
 import asyncio
