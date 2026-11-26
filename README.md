@@ -1,6 +1,25 @@
 # strands-lancedb-memory
 
-**Status: evaluation in progress.** The local LanceDB `MemoryStore` is implemented and tested offline. On 100 LongMemEval-S development questions, full-session memory raised GPT-4o-judged answer accuracy over no memory, while Strands' FileMemoryStore narrowly outscored this store at the same five-result limit. The sealed 400-question test evaluation is still pending.
+**Status: implemented and benchmarked.** On all 500 LongMemEval-S questions, the frozen LanceDB FTS configuration answered 255 correctly with a pinned GPT-4o judge, versus 240 for Strands' FileMemoryStore and 30 without memory. The 100-question development split selected the configuration before the 400-question test split was opened.
+
+| Metric | Value | JSON source |
+| --- | ---: | --- |
+| LanceDB FTS answer accuracy, all 500 | 51.0% | `results/all_500_summary.json#/summary/lancedb_fts:3/accuracy` |
+| FileMemoryStore answer accuracy, all 500 | 48.0% | `results/all_500_summary.json#/summary/file:3/accuracy` |
+| No-memory answer accuracy, all 500 | 6.0% | `results/all_500_summary.json#/summary/no_memory:0/accuracy` |
+| LanceDB FTS answer accuracy, held-out 400 | 50.25% | `results/frozen_answers.json#/summary/lancedb_fts:3/accuracy` |
+| FileMemoryStore answer accuracy, held-out 400 | 46.5% | `results/frozen_answers.json#/summary/file:3/accuracy` |
+
+| Question type, all 500 | LanceDB FTS | FileMemoryStore | Questions |
+| --- | ---: | ---: | ---: |
+| Knowledge update | 44 | 48 | 78 |
+| Multi-session | 42 | 40 | 133 |
+| Assistant statement | 54 | 52 | 56 |
+| Preference | 2 | 1 | 30 |
+| User statement | 64 | 56 | 70 |
+| Temporal reasoning | 49 | 43 | 133 |
+
+These are results from this repository's full-session memory and `gpt-4o-mini-2024-07-18` reader, graded with the official LongMemEval prompt using pinned `gpt-4o-2024-08-06`. They are **not an official leaderboard score**. The 15-question held-out advantage over FileMemoryStore is modest; the benchmark does not establish a general performance ranking. The main result does not measure Strands' own fact extraction. See [the protocol and raw reports](docs/EXPERIMENTS.md).
 
 The package connects [Strands Agents](https://github.com/strands-agents/harness-sdk) memory to embedded [LanceDB](https://github.com/lancedb/lancedb), with tenant-scoped local storage, explicit ingestion modes, and configurable FTS, vector, or weighted reciprocal rank fusion search. Vector modes require a caller-supplied embedder. Remote `s3://` storage is currently rejected because it has not been validated.
 
@@ -101,7 +120,7 @@ The optional local `BAAI/bge-small-en-v1.5` model was also tested on the same 10
 | Equal hybrid (vector weight 0.50) dev hit@5 | 96.0% | `results/vector_dev.json#/summary/hybrid_rrf:0.50/hit_at_5` |
 | Vector-only dev hit@5 | 93.0% | `results/vector_dev.json#/summary/vector:1.00/hit_at_5` |
 
-The split manifest (`results/longmemeval_dev_split.json`) records the dataset fingerprint and development IDs without publishing test IDs. Every retrieval row has the question ID, selected session IDs and ordinals, evidence rank, injected context size, and measured latency. The test partition remains untouched until the configuration is frozen.
+The split manifest (`results/longmemeval_dev_split.json`) records the dataset fingerprint and development IDs without publishing test IDs. Every retrieval row has the question ID, selected session IDs and ordinals, evidence rank, injected context size, and measured latency. The configuration was frozen before the held-out evaluation.
 
 ## LongMemEval-S development answers
 
@@ -114,7 +133,7 @@ The same `gpt-4o-mini-2024-07-18` reader answered every question at temperature 
 | LanceDB FTS dev answer accuracy, k=5 | 53.0% | `results/dev_answers.json#/summary/lancedb_fts:5/accuracy` |
 | TestMemoryStore dev answer accuracy, k=5 | 45.0% | `results/dev_answers.json#/summary/test:5/accuracy` |
 
-LanceDB FTS had a higher evidence hit@5 than FileMemoryStore on this split, but two fewer correct answers. Retrieval hit rate alone did not predict answer quality. Both memory stores strongly improved on the no-memory arm. The dev set is only 100 questions, and the 400-question test result has not yet been examined.
+LanceDB FTS had a higher evidence hit@5 than FileMemoryStore on this split, but two fewer correct answers at top 5. Retrieval hit rate alone did not predict answer quality. Both memory stores strongly improved on the no-memory arm. The dev set is only 100 questions; the frozen top-3 configuration and its held-out result are reported above.
 
 ## Reproduce Phase 0
 

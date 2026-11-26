@@ -8,7 +8,7 @@ The official LongMemEval repository links to the cleaned dataset on Hugging Face
 
 LongMemEval-S is loaded from the public cleaned dataset. `evals.split` makes a fixed, question-type-stratified 100-question development split and seals the remaining 400 IDs by hash. The split manifest and raw dataset SHA-256 are in `results/longmemeval_dev_split.json`. All model and retrieval decisions use only development questions. Gold answers enter only the judge call; search and the reader receive the question and retrieved conversation, never a gold answer or evidence label.
 
-The retrieval-only harness indexes each complete conversation session as one memory in three stores: this package with FTS, Strands `FileMemoryStore`, and Strands `TestMemoryStore`. A duplicate session ID remains a separate memory occurrence through its ordinal. Each system sees the same input sessions. It records evidence-label hit@3/5/10, search latency, and selected session IDs and ordinals. This tests retrieval, not answer quality. `evals.answer_dev` applies the same reader and official judge to the retained results; the baseline paired answer run is complete.
+The retrieval-only harness indexes each complete conversation session as one memory in three stores: this package with FTS, Strands `FileMemoryStore`, and Strands `TestMemoryStore`. A duplicate session ID remains a separate memory occurrence through its ordinal. Each system sees the same input sessions. It records evidence-label hit@3/5/10, search latency, and selected session IDs and ordinals. This tests retrieval, not answer quality. `evals.answer_dev` and `evals.frozen_answers` apply the same reader and judge to the retained results.
 
 The reader is `gpt-4o-mini-2024-07-18` at temperature 0. The pinned official-style judge is `gpt-4o-2024-08-06` at temperature 0 using the prompt copied from LongMemEval commit `9e0b455f4ef0e2ab8f2e582289761153549043fc`. `results/official_prompt_verification.json` records exact output agreement for all six question types and abstention. Each model request records its prompt hash, model ID, tokens, response, and billed cost in the local ignored ledger. The report publishes per-question outputs and aggregate cost. The shared ledger refuses a request that could cross the $20 ceiling.
 
@@ -60,12 +60,33 @@ Weight 0.30 tied FTS at hit@5 and improved hit@10 by one question; equal weighti
 
 ## Predeclared freeze rule
 
-`evals.freeze` considers the full-session package candidates only: FTS, vector-only, and each measured weighted hybrid, at result limits 3, 5, and 10. It requires every arm in the grid and selects the one with the most correct development answers. Ties go to FTS before hybrid before vector, then to the smaller result limit, then lexical arm name. It verifies identical reader and judge settings and stores the source report hashes before opening the sealed test split. Fact-shaped memories are evaluated as an ablation but are not a frozen package candidate because their query-independent extraction harness is separate from Strands' production `ModelExtractor` behavior. The resulting `results/frozen_config.json` selects LanceDB FTS at top 3, with 54/100 correct development answers. The frozen 400-question test retrieval is now running; its answers are not yet graded.
+`evals.freeze` considers the full-session package candidates only: FTS, vector-only, and each measured weighted hybrid, at result limits 3, 5, and 10. It requires every arm in the grid and selects the one with the most correct development answers. Ties go to FTS before hybrid before vector, then to the smaller result limit, then lexical arm name. It verifies identical reader and judge settings and stores the source report hashes before opening the sealed test split. Fact-shaped memories are evaluated as an ablation but are not a frozen package candidate because their query-independent extraction harness is separate from Strands' production `ModelExtractor` behavior. The resulting `results/frozen_config.json` selects LanceDB FTS at top 3, with 54/100 correct development answers. This exact configuration was used for the 400-question held-out run.
+
+## Frozen held-out test result
+
+`results/frozen_retrieval.json` contains 1,200 retrieval rows: 400 questions in each of the three stores. `results/frozen_answers.json` contains 1,600 judged rows: the three stores at top 3 plus no-memory controls. The test harness did not reselect a weight or result limit after seeing these data.
+
+| Store | Evidence hit@3 | Evidence hit@5 | Correct answers / 400 | Answer accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| LanceDB FTS | 95.25% | 97.00% | 201 | 50.25% |
+| FileMemoryStore | 88.00% | 92.25% | 186 | 46.50% |
+| TestMemoryStore | 84.00% | 89.00% | 174 | 43.50% |
+| No memory | — | — | 27 | 6.75% |
+
+The FTS and file arms agreed on 165 correct questions; FTS alone was correct on 36, and the file arm alone on 21. Thus the net held-out difference is 15/400, or 3.75 percentage points. This single benchmark run and model judge do not establish a general superiority claim. On the AWS retrieval host, FTS search p50 was 491.4 ms versus 59.2 ms for FileMemoryStore and 20.8 ms for the in-memory test store; these timings include each store's measured search path, not ingestion or model latency.
+
+The retrieval stage used a temporary Ubuntu 24.04 `c7i.xlarge` EC2 instance. Frozen answer grading used a temporary `c7i.large` instance and a scoped Secrets Manager secret; the key was not included in the benchmark bundle or logs. Both runs resumed from their durable checkpoints/ledger. The verified reports and ledger were downloaded before the temporary instances, roles, security groups, buckets, and secret were removed. Cloud compute charges are separate from the model API ledger.
+
+## All 500 questions and judge check
+
+`results/all_500_summary.json` joins the 100 development questions to the 400 frozen test questions without changing the configuration. LanceDB FTS answered 255/500 (51.0%) correctly; FileMemoryStore answered 240/500 (48.0%), TestMemoryStore 219/500 (43.8%), and no-memory 30/500 (6.0%). This is a combined descriptive result, not an additional held-out score or an official leaderboard entry. The question-type breakdown is in the raw report and README; preferences (2/30 for FTS) and multi-session questions (42/133) remain weak points.
+
+`results/second_judge.json` regraded a fixed-seed sample of 50 held-out answer rows with a second model. It agreed with the primary judge on 49/50 (98%). The two model judgments are correlated evidence, not a substitute for human adjudication. The shared model ledger totals $4.14651835 after this check, below the $20 cap. This excludes AWS compute and storage charges.
 
 ## Search scale
 
 `experiments/scale_memory.py` bulk seeds 32-dimensional synthetic vectors at 1k, 10k, and 100k rows. It measures exact and IVF_FLAT indexed search through the public store API, and compares each indexed top-10 ranking with its exact ranking. The raw results and hardware are in `results/scale_1k.json`, `results/scale_10k.json`, and `results/scale_100k.json`. At 100k rows, indexed p50 was 62.9 ms versus exact p50 66.9 ms, with only 78.0% top-10 recall. The small latency gain does not justify that recall loss as a default. Bulk seed throughput is not public `add` throughput.
 
-## Remaining evaluation
+## Interpretation and next work
 
-Complete frozen retrieval and judged answers on the 400-question test partition, run the second-judge agreement sample, and combine the 100 development and 400 test questions. The development result does not favor FTS over the file baseline, so any final claim must report both. The fact-shaped ablation covers extraction and keyed ranking on the development split; it does not validate production `ModelExtractor` behavior.
+The development result at top 5 did not favor FTS over the file baseline, while the frozen top-3 configuration led by 15 questions on the held-out split. Report both; neither justifies a universal ranking. The fact-shaped ablation covers query-independent extraction and keyed ranking on the development split, not production `ModelExtractor` quality. A real-user study, human adjudication of judge disagreements, and a scale run using the public `add` method remain open work.
