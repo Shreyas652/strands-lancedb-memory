@@ -2,6 +2,8 @@
 
 This document records behavior verified so far. The local 1k/10k/100k synthetic scale runs and the 100-development/400-held-out-question LongMemEval evaluation are complete. The offline CI matrix passed on Windows, macOS, and Ubuntu with Python 3.11–3.13 before the final reports were added.
 
+- **Dependency compatibility is bounded by tested releases.** The offline store and Agent integration tests cover `strands-agents>=1.65,<1.68`, `lancedb>=0.41,<0.42`, `pyarrow>=26.0,<27`, and `filelock>=3.20,<5` at both the lowest supported versions and the newest available releases as of 25 November 2026. The frozen benchmark used the exact versions in `uv.lock`: Strands 1.65.0, LanceDB 0.41.0, PyArrow 26.0.1, and filelock 3.32.7. The compatibility tests do not rerun LongMemEval or establish behavior for versions outside these ranges.
+
 - **Local storage only.** `s3://` and other remote URIs fail at construction. An S3 example would be misleading until an emulator and real-backend smoke pass.
 - **Embeddings are supplied by the caller.** FTS works without a model. Vector and hybrid search require an `Embedder` with a declared dimension and model ID. No local embedding model is bundled or downloaded implicitly.
 - **Fact updates require a stable key.** With `update_strategy="fact_key"`, the caller must pass `metadata.fact_key`. Retrieval brings the newest version of a matched key into the candidate set and ranks it first. This does not infer that differently worded unkeyed facts describe the same subject. `search_as_of` filters by asserted `valid_from`; it does not answer natural-language time questions by itself.

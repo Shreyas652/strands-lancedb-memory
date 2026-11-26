@@ -9,22 +9,26 @@ license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "licenses/LongMemEval-MIT.
 authors = [{name = "Shreyas Gosavi"}]
 keywords = ["strands-agents", "lancedb", "memory", "agents"]
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
 dependencies = [
-    "filelock>=3.20,<4",
-    "lancedb==0.41.0",
-    "pyarrow==26.0.1",
-    "strands-agents==1.65.0",
+    "filelock>=3.20,<5",
+    "lancedb>=0.41,<0.42",
+    "pyarrow>=26.0,<27",
+    "strands-agents>=1.65,<1.68",
 ]
 
 [project.urls]
 Homepage = "https://github.com/Shreyas652/strands-lancedb-memory"
 Repository = "https://github.com/Shreyas652/strands-lancedb-memory"
 Issues = "https://github.com/Shreyas652/strands-lancedb-memory/issues"
+Documentation = "https://github.com/Shreyas652/strands-lancedb-memory/tree/main/docs"
 
 [build-system]
 requires = ["uv_build>=0.11.21,<0.12.0"]
